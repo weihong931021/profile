@@ -1,0 +1,72 @@
+
+
+Contact
+Skills
+weihong931021
+GitHub
+weihong609193@gmail.com
+Email
+黃偉閎
+國立中央大學資訊管理學系
+Department Ranking : 32 / 99  |  GPA : 4 ( 89.24 )   |  人工智慧學分學程
+Projects
+設計 DeFi 借貸協議，將代幣化股票（tTSLA）轉換為 USDC 信用額度
+開發 LendingPool 智能合約，實作抵押、借貸、還款與清算機制
+設計前端 DApp 與合約互動流程，整合 MetaMask 與 ethers.js 完成測試鏈操作
+入圍 2025 RWA Hackathon 複賽
+Solidity, Hardhat, Vue 3, TypeScript, ethers.js
+TokenPay | Web3 全端開發
+參與國立中央大學新生資訊平台開發，建置部落格頁面，累積瀏覽量突破 15,000+
+建立 Markdown-based 內容系統，實現文章動態載入、解析與渲染流程
+開發後端 API（Express），整合資料庫（Sequelize）實現文章觀看數與收藏功能
+（JWT 驗證）
+與設計與企劃團隊協作，將 Figma UI 轉換為前端實作，並負責 RWD 與 Tailwind
+CSS 樣式優化
+Nuxt 3, Vue 3, Express, Sequelize, Tailwind CSS
+NCU Fresh 2025 — Blog 頁面 | 全端開發
+設計任務導向互動流程與前端狀態邏輯，實現城市探索任務系統
+建立 UI 組件與使用者操作流程，提升互動體驗與任務流暢度
+參與產品流程設計，整合 AI 劇情生成與任務機制
+入圍 LINE FRESH 校園競賽複賽
+Vue, JavaScript, UI/UX Implementation
+LINE Quest — 城市探索互動系統 | 前端開發
+Web Frameworks
+中央大學ERP中心 GA組⻑ / 組員
+加入中央資工 SALLY LAB
+保誠人壽黑客松決賽
+雙北城市儀表板黑客松決賽
+Activities
+Relevant
+Coursework
+Python, C, Java, JavaScript, SQL,
+Solidity
+Programming
+Machine Learning | AI System Design |
+Full-Stack Development
+Vue.js, Flask, Express.js, 
+AI Frameworks / Libraries
+LangChain, TensorFlow, 
+Scikit-learn, Keras
+Tools
+Git, Docker, n8n, Power BI
+計算機概論 99
+ AI人工智慧導論 97
+ 圖像辨識的企業應用 96
+ 網頁程式設計 98
+ 機器學習概論 95
+ 資料庫管理 97
+In Progress
+設計基於 LangGraph 的 Multi-Agent workflow，定義資料處理、指標計算與多
+Agent 分析之流程控制
+建構 Multi-Agent 架構（SMA / RSI / MACD），並設計 decision aggregation 輸出
+交易訊號
+定義 Agent 輸出 schema（signal / confidence / reasoning），提升決策可解釋性
+實作回測模組與完整 Web 系統，並進行容器化部署（Docker + Nginx）
+FastAPI, LangGraph, Vue 3, ECharts, SQLite
+QuantSense — 股票分析 Multi-Agent 系統｜全端開發
+與桃園市環境管理處合作，開發監控影像中亂丟垃圾行為辨識系統
+建立資料處理與標註轉換 pipeline（CVAT XML → YOLO），支援多類行為分類
+使用 YOLOv11 進行垃圾偵測，完成初步物件定位
+規劃結合 ROI 與 3D CNN 進行時序行為分析，提升動作辨識能力
+YOLO, OpenCV, CVAT, Python
+亂丟垃圾行為偵測系統 | Computer Vision

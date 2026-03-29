@@ -1,0 +1,70 @@
+C o n t a c t
+S k i l l s
+w e i h o n g 9 3 1 0 2 1
+G i t H u b
+w e i h o n g 6 0 9 1 9 3 @ g m a i l . c o m
+E m a i l
+黃 偉 閎
+國 ⽴ 中 央 ⼤ 學 資 訊 管 理 學 系
+D e p a r t m e n t  R a n k i n g  :  3 2  /  9 9   |   G P A  :  4  (  8 9 . 2 4  )    |   ⼈ ⼯ 智 慧 學 分 學 程
+P r o j e c t s
+設 計  D e F i  借 貸 協 議 ， 將 代 幣 化 股 票 （ t T S L A ） 轉 換 為  U S D C  信 ⽤ 額 度
+開 發  L e n d i n g P o o l  智 能 合 約 ， 實 作 抵 押 、 借 貸 、 還 款 與 清 算 機 制
+設 計 前 端  D A p p  與 合 約 互 動 流 程 ， 整 合  M e t a M a s k  與  e t h e r s . j s  完 成 測 試 鏈 操 作
+入 圍  2 0 2 5  R W A  H a c k a t h o n  複 賽
+S o l i d i t y ,  H a r d h a t ,  V u e  3 ,  T y p e S c r i p t ,  e t h e r s . j s
+T o k e n P a y  |  W e b 3  全 端 開 發
+參 與 國 ⽴ 中 央 ⼤ 學 新 ⽣ 資 訊 平 台 開 發 ， 建 置 部 落 格 ⾴ ⾯ ， 累 積 瀏 覽 量 突 破  1 5 , 0 0 0 +
+建 ⽴  M a r k d o w n - b a s e d  內 容 系 統 ， 實 現 ⽂ 章 動 態 載 入 、 解 析 與 渲 染 流 程
+開 發 後 端  A P I （ E x p r e s s ） ， 整 合 資 料 庫 （ S e q u e l i z e ） 實 現 ⽂ 章 觀 看 數 與 收 藏 功 能
+（ J W T  驗 證 ）
+與 設 計 與 企 劃 團 隊 協 作 ， 將  F i g m a  U I  轉 換 為 前 端 實 作 ， 並 負 責  R W D  與  T a i l w i n d
+C S S  樣 式 優 化
+N u x t  3 ,  V u e  3 ,  E x p r e s s ,  S e q u e l i z e ,  T a i l w i n d  C S S
+N C U  F r e s h  2 0 2 5  —  B l o g  ⾴ ⾯  |  全 端 開 發
+設 計 任 務 導 向 互 動 流 程 與 前 端 狀 態 邏 輯 ， 實 現 城 市 探 索 任 務 系 統
+建 ⽴  U I  組 件 與 使 ⽤ 者 操 作 流 程 ， 提 升 互 動 體 驗 與 任 務 流 暢 度
+參 與 產 品 流 程 設 計 ， 整 合  A I  劇 情 ⽣ 成 與 任 務 機 制
+入 圍  L I N E  F R E S H  校 園 競 賽 複 賽
+V u e ,  J a v a S c r i p t ,  U I / U X  I m p l e m e n t a t i o n
+L I N E  Q u e s t  —  城 市 探 索 互 動 系 統  |  前 端 開 發
+W e b  F r a m e w o r k s
+中 央 ⼤ 學 E R P 中 ⼼  G A 組 ⻑  /  組 員
+加 入 中 央 資 ⼯  S A L L Y  L A B
+保 誠 ⼈ 壽 ⿊ 客 松 決 賽
+雙 北 城 市 儀 表 板 ⿊ 客 松 決 賽
+A c t i v i t i e s
+R e l e v a n t
+C o u r s e w o r k
+P y t h o n ,  C ,  J a v a ,  J a v a S c r i p t ,  S Q L ,
+S o l i d i t y
+P r o g r a m m i n g
+M a c h i n e  L e a r n i n g  |  A I  S y s t e m  D e s i g n  |
+F u l l - S t a c k  D e v e l o p m e n t
+V u e . j s ,  F l a s k ,  E x p r e s s . j s ,  
+A I  F r a m e w o r k s  /  L i b r a r i e s
+L a n g C h a i n ,  T e n s o r F l o w ,  
+S c i k i t - l e a r n ,  K e r a s
+T o o l s
+G i t ,  D o c k e r ,  n 8 n ,  P o w e r  B I
+計 算 機 概 論  9 9
+ A I ⼈ ⼯ 智 慧 導 論  9 7
+ 圖 像 辨 識 的 企 業 應 ⽤  9 6
+ 網 ⾴ 程 式 設 計  9 8
+ 機 器 學 習 概 論  9 5
+ 資 料 庫 管 理  9 7
+I n  P r o g r e s s
+設 計 基 於  L a n g G r a p h  的  M u l t i - A g e n t  w o r k f l o w ， 定 義 資 料 處 理 、 指 標 計 算 與 多
+A g e n t  分 析 之 流 程 控 制
+建 構  M u l t i - A g e n t  架 構 （ S M A  /  R S I  /  M A C D ） ， 並 設 計  d e c i s i o n  a g g r e g a t i o n  輸 出
+交 易 訊 號
+定 義  A g e n t  輸 出  s c h e m a （ s i g n a l  /  c o n f i d e n c e  /  r e a s o n i n g ） ， 提 升 決 策 可 解 釋 性
+實 作 回 測 模 組 與 完 整  W e b  系 統 ， 並 進 ⾏ 容 器 化 部 署 （ D o c k e r  +  N g i n x ）
+F a s t A P I ,  L a n g G r a p h ,  V u e  3 ,  E C h a r t s ,  S Q L i t e
+Q u a n t S e n s e  —  股 票 分 析  M u l t i - A g e n t  系 統 ｜ 全 端 開 發
+與 桃 園 市 環 境 管 理 處 合 作 ， 開 發 監 控 影 像 中 亂 丟 垃 圾 ⾏ 為 辨 識 系 統
+建 ⽴ 資 料 處 理 與 標 註 轉 換  p i p e l i n e （ C V A T  X M L  →  Y O L O ） ， ⽀ 援 多 類 ⾏ 為 分 類
+使 ⽤  Y O L O v 1 1  進 ⾏ 垃 圾 偵 測 ， 完 成 初 步 物 件 定 位
+規 劃 結 合  R O I  與  3 D  C N N  進 ⾏ 時 序 ⾏ 為 分 析 ， 提 升 動 作 辨 識 能 ⼒
+Y O L O ,  O p e n C V ,  C V A T ,  P y t h o n
+亂 丟 垃 圾 ⾏ 為 偵 測 系 統  |  C o m p u t e r  V i s i o n
