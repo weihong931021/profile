@@ -24,7 +24,7 @@ const completedProjects = [
       "建立前端 DApp，整合 MetaMask 與 ethers.js 完成鏈上互動流程",
       "專案入圍 2025 RWA Hackathon 複賽",
     ],
-    projectUrl: "https://weihongweb.com/fluid-hackathon",
+    projectUrl: "https://weihongweb.com/fluid-hackathon/",
     githubUrl: "https://github.com/weihong931021/Web3-RWA-Hackathon",
   },
   {
