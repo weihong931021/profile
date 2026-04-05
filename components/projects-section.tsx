@@ -11,8 +11,8 @@ const completedProjects = [
       "定義 Agent 輸出 schema（signal / confidence / reasoning），提升決策可解釋性",
       "實作回測模組，評估策略績效（報酬、回撤、勝率）",
     ],
-    projectUrl: "#",
-    githubUrl: "https://github.com/weihong931021",
+    projectUrl: "https://weihongweb.com/project1/",
+    githubUrl: "https://github.com/weihong931021/stock-prediction-app",
   },
   {
     title: "TokenPay — Web3 去中心化借貸系統",
@@ -24,8 +24,8 @@ const completedProjects = [
       "建立前端 DApp，整合 MetaMask 與 ethers.js 完成鏈上互動流程",
       "專案入圍 2025 RWA Hackathon 複賽",
     ],
-    projectUrl: "#",
-    githubUrl: "https://github.com/weihong931021",
+    projectUrl: "https://weihongweb.com/fluid-hackathon",
+    githubUrl: "https://github.com/weihong931021/Web3-RWA-Hackathon",
   },
   {
     title: "NCU Fresh 2025 — 新生資訊平台 Blog 系統",
@@ -37,8 +37,8 @@ const completedProjects = [
       "與設計與企劃團隊協作，將 Figma UI 轉換為前端實作",
       "負責 RWD 與 Tailwind CSS 樣式優化",
     ],
-    projectUrl: "#",
-    gitlabUrl: "https://github.com/weihong931021",
+    projectUrl: "https://ncufresh.ncu.edu.tw/",
+    gitlabUrl: "https://gitlab.com/ncufresh/ncufresh25",
   },
   {
     title: "LINE Quest — 城市探索互動系統",
@@ -50,8 +50,8 @@ const completedProjects = [
       "參與產品流程設計，整合 AI 劇情與任務機制",
       "入圍 LINE FRESH 校園競賽複賽",
     ],
-    projectUrl: "#",
-    githubUrl: "https://github.com/weihong931021",
+    projectUrl: "https://weihongweb.com/LineFresh",
+    githubUrl: "https://github.com/weihong931021/LINE-FRESH",
   },
 ]
 

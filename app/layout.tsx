@@ -16,7 +16,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: '\u9ec3\u5049\u958e | AI \u5de5\u7a0b\u5e2b / \u5168\u7aef\u958b\u767c\u8005',
+  title: '黃偉閎個人網站',
   description: '\u5c08\u6ce8\u65bc AI \u7cfb\u7d71\u8a2d\u8a08\u3001Multi-Agent Workflow\u3001\u5168\u7aef\u958b\u767c\u8207 Web3 \u61c9\u7528\u3002\u570b\u7acb\u4e2d\u592e\u5927\u5b78\u8cc7\u8a0a\u7ba1\u7406\u5b78\u7cfb\u5b78\u751f\u3002',
   icons: {
     icon: [
