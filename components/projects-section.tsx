@@ -11,7 +11,7 @@ const completedProjects = [
       "定義 Agent 輸出 schema（signal / confidence / reasoning），提升決策可解釋性",
       "實作回測模組，評估策略績效（報酬、回撤、勝率）",
     ],
-    projectUrl: "https://weihongweb.com/project1/",
+    projectUrl: "https://weihongweb.com/QuantSense",
     githubUrl: "https://github.com/weihong931021/stock-prediction-app",
   },
   {
