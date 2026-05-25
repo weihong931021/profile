@@ -1,5 +1,6 @@
 "use client"
 
+import type { CSSProperties } from "react"
 import { Github, Mail, Download } from "lucide-react"
 
 const skills: Record<string, string> = {
@@ -24,7 +25,7 @@ const coursework = [
   { name: "Machine Learning", score: 95 },
 ]
 
-const glassCard: React.CSSProperties = {
+const glassCard: CSSProperties = {
   background: "rgba(255,255,255,0.04)",
   border: "1px solid rgba(255,255,255,0.07)",
   borderRadius: "10px",
@@ -33,13 +34,13 @@ const glassCard: React.CSSProperties = {
   WebkitBackdropFilter: "blur(8px)",
 }
 
-const divider: React.CSSProperties = {
+const divider: CSSProperties = {
   margin: "40px 0",
   border: "none",
   borderTop: "1px solid rgba(255,255,255,0.06)",
 }
 
-const gradientText: React.CSSProperties = {
+const gradientText: CSSProperties = {
   background: "linear-gradient(90deg, #ffa032, #b450ff)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
