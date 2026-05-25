@@ -46,7 +46,7 @@ export default function RootLayout({
     <html lang="zh-TW" className={`${notoSansTC.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
         <Navbar />
-        <main>
+        <main style={{ paddingTop: "56px" }}>
           {children}
         </main>
         <Analytics />
