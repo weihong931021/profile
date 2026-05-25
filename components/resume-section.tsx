@@ -2,153 +2,236 @@
 
 import { Github, Mail, Download } from "lucide-react"
 
+const skills: Record<string, string> = {
+  "AI / Data": "LangGraph, LangChain, Scikit-learn, TensorFlow",
+  "Backend": "Python, FastAPI, Express.js, SQL",
+  "Frontend": "Vue 3, Nuxt 3, JavaScript, Tailwind CSS",
+  "Tools": "Docker, Git, Nginx, Power BI",
+}
+
+const activities = [
+  { title: "ERP GA 組長", desc: "負責 Power BI 教學與資料分析應用" },
+  { title: "SALLY LAB", desc: "參與 AI / Computer Vision 相關專案研究" },
+  { title: "保誠人壽黑客松", desc: "提出 AI 心理健康保險提案", badge: "決賽" },
+  { title: "雙北城市儀表板黑客松", desc: "參與災害資料視覺化 Dashboard 專案", badge: "決賽" },
+]
+
+const coursework = [
+  { name: "Web Programming", score: 98 },
+  { name: "Database Management", score: 97 },
+  { name: "Introduction to AI", score: 97 },
+  { name: "Computer Vision Applications", score: 96 },
+  { name: "Machine Learning", score: 95 },
+]
+
+const glassCard: React.CSSProperties = {
+  background: "rgba(255,255,255,0.04)",
+  border: "1px solid rgba(255,255,255,0.07)",
+  borderRadius: "10px",
+  padding: "20px 24px",
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
+}
+
+const divider: React.CSSProperties = {
+  margin: "40px 0",
+  border: "none",
+  borderTop: "1px solid rgba(255,255,255,0.06)",
+}
+
+const gradientText: React.CSSProperties = {
+  background: "linear-gradient(90deg, #ffa032, #b450ff)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+}
+
 export function ResumeSection() {
   return (
-    <section className="py-16 px-4 md:px-8">
-      <div className="container mx-auto max-w-5xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            <span className="inline-block w-3 h-3 bg-primary mr-3"></span>
-            履歷 Resume
+    <section style={{ minHeight: "100vh", background: "#080810", paddingBottom: "80px", position: "relative" }}>
+      {/* Ambient blobs */}
+      <div style={{
+        position: "fixed", top: "15%", left: "-80px",
+        width: "260px", height: "260px",
+        background: "rgba(255,160,50,0.07)",
+        borderRadius: "50%", filter: "blur(80px)",
+        pointerEvents: "none", zIndex: 0,
+        animation: "neon-pulse 5s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "25%", right: "-60px",
+        width: "220px", height: "220px",
+        background: "rgba(180,80,255,0.07)",
+        borderRadius: "50%", filter: "blur(70px)",
+        pointerEvents: "none", zIndex: 0,
+        animation: "neon-pulse 5s ease-in-out infinite 2.5s",
+      }} />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: "768px", margin: "0 auto", padding: "48px 24px 0" }}>
+        {/* Page title */}
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+          <h1 style={{ ...gradientText, fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 900, margin: "0 0 8px" }}>
+            Resume
           </h1>
-          <p className="text-muted-foreground text-lg">
-            About Me & Skills
+          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px", margin: 0 }}>
+            About Me &amp; Skills
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-16">
-          {/* Header Summary */}
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight mb-2">國立中央大學資訊管理學系</h2>
-            <p className="text-xl md:text-2xl text-primary font-bold mb-6">人工智慧學分學程</p>
-            
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-lg md:text-xl text-muted-foreground mb-8 font-medium">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary shrink-0"></div>
-                <span>Department Rank: <span className="text-foreground font-bold tracking-tight">32 / 99</span></span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-primary shrink-0"></div>
-                <span>Average: <span className="text-foreground font-bold tracking-tight">89.24</span></span>
-              </div>
+        {/* School + Stats + Tags */}
+        <div style={{ marginBottom: "0" }}>
+          <h2 style={{ color: "#fff", fontSize: "clamp(20px, 4vw, 28px)", fontWeight: 800, margin: "0 0 6px" }}>
+            國立中央大學資訊管理學系
+          </h2>
+          <p style={{ ...gradientText, fontSize: "17px", fontWeight: 700, margin: "0 0 20px" }}>
+            人工智慧學分學程
+          </p>
+
+          {/* Stats cards */}
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "20px" }}>
+            <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
+              <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>RANK</p>
+              <p style={{ ...gradientText, fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
+                32<span style={{ fontSize: "14px", opacity: 0.5 }}>/99</span>
+              </p>
             </div>
-
-            <div className="flex flex-wrap gap-3">
-              <span className="bg-background text-foreground border border-border/80 px-5 py-2 rounded-full text-base font-semibold shadow-sm hover:border-primary/50 transition-colors">AI System Design</span>
-              <span className="bg-background text-foreground border border-border/80 px-5 py-2 rounded-full text-base font-semibold shadow-sm hover:border-primary/50 transition-colors">Multi-Agent Workflow</span>
-              <span className="bg-background text-foreground border border-border/80 px-5 py-2 rounded-full text-base font-semibold shadow-sm hover:border-primary/50 transition-colors">Full-Stack Development</span>
-            </div>
-          </div>
-
-          <hr className="border-border" />
-
-          {/* Contact */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Contact</h2>
-            <ul className="space-y-4 text-lg text-muted-foreground font-medium">
-              <li>
-                <a href="https://github.com/weihong931021" target="_blank" rel="noreferrer" className="flex items-center gap-4 hover:text-primary transition-colors w-fit">
-                  <Github className="w-5 h-5" />
-                  <span>weihong931021</span>
-                </a>
-              </li>
-              <li>
-                <a href="mailto:weihong609193@gmail.com" className="flex items-center gap-4 hover:text-primary transition-colors w-fit">
-                  <Mail className="w-5 h-5" />
-                  <span className="break-all">weihong609193@gmail.com</span>
-                </a>
-              </li>
-              <li>
-                <a href="/resume.pdf" download className="flex items-center gap-4 hover:text-primary transition-colors w-fit text-foreground">
-                  <Download className="w-5 h-5" />
-                  <span>Resume PDF Download</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <hr className="border-border" />
-
-          {/* Technical Skills */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Technical Skills</h2>
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">AI / Data</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">LangGraph, LangChain, Scikit-learn, TensorFlow</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Backend</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">Python, FastAPI, Express.js, SQL</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Frontend</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">Vue 3, Nuxt 3, JavaScript, Tailwind CSS</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Tools</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">Docker, Git, Nginx, Power BI</p>
-              </div>
+            <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
+              <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>AVERAGE</p>
+              <p style={{ ...gradientText, fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
+                89.24
+              </p>
             </div>
           </div>
 
-          <hr className="border-border" />
+          {/* Domain tags */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            <span style={{ background: "rgba(255,160,50,0.15)", color: "#fbbf24", border: "1px solid rgba(255,160,50,0.25)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
+              AI System Design
+            </span>
+            <span style={{ background: "rgba(180,80,255,0.15)", color: "#d08bff", border: "1px solid rgba(180,80,255,0.2)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
+              Multi-Agent Workflow
+            </span>
+            <span style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
+              Full-Stack Development
+            </span>
+          </div>
+        </div>
 
-          {/* Activities / Leadership */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Activities / Leadership</h2>
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">ERP GA 組長</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">負責 Power BI 教學與資料分析應用</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">SALLY LAB</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">參與 AI / Computer Vision 相關專案研究</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">保誠人壽黑客松｜決賽</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">提出 AI 心理健康保險提案</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-foreground mb-2">雙北城市儀表板黑客松｜決賽</h3>
-                <p className="text-lg text-muted-foreground leading-snug font-medium">參與災害資料視覺化 Dashboard 專案</p>
-              </div>
+        <hr style={divider} />
+
+        {/* Contact */}
+        <div style={{ marginBottom: "0" }}>
+          <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Contact</h2>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "14px" }}>
+            <li>
+              <a href="https://github.com/weihong931021" target="_blank" rel="noreferrer"
+                style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+              >
+                <Github size={18} /> weihong931021
+              </a>
+            </li>
+            <li>
+              <a href="mailto:weihong609193@gmail.com"
+                style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+              >
+                <Mail size={18} /> weihong609193@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="/resume.pdf" download
+                style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+              >
+                <Download size={18} /> Resume PDF Download
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <hr style={divider} />
+
+        {/* Technical Skills */}
+        <div style={{ marginBottom: "0" }}>
+          <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Technical Skills</h2>
+          <div style={glassCard}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {Object.entries(skills).map(([category, items]) => (
+                <div key={category} style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+                  <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "12px", width: "72px", flexShrink: 0, paddingTop: "2px" }}>
+                    {category}
+                  </span>
+                  <span style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px", lineHeight: 1.5 }}>
+                    {items}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
 
-          <hr className="border-border" />
+        <hr style={divider} />
 
-          {/* Relevant Coursework */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Relevant Coursework</h2>
-            <ul className="space-y-5">
-              <li className="flex items-center justify-between border-b border-border/50 pb-3">
-                <span className="text-lg md:text-xl font-semibold">Web Programming</span> 
-                <span className="text-xl md:text-2xl font-bold text-primary">98</span>
-              </li>
-              <li className="flex items-center justify-between border-b border-border/50 pb-3">
-                <span className="text-lg md:text-xl font-semibold">Database Management</span> 
-                <span className="text-xl md:text-2xl font-bold text-primary">97</span>
-              </li>
-              <li className="flex items-center justify-between border-b border-border/50 pb-3">
-                <span className="text-lg md:text-xl font-semibold">Introduction to AI</span> 
-                <span className="text-xl md:text-2xl font-bold text-primary">97</span>
-              </li>
-              <li className="flex items-center justify-between border-b border-border/50 pb-3">
-                <span className="text-lg md:text-xl font-semibold">Computer Vision Applications</span> 
-                <span className="text-xl md:text-2xl font-bold text-primary">96</span>
-              </li>
-              <li className="flex items-center justify-between border-b border-border/50 pb-3">
-                <span className="text-lg md:text-xl font-semibold">Machine Learning</span> 
-                <span className="text-xl md:text-2xl font-bold text-primary">95</span>
-              </li>
-            </ul>
+        {/* Activities */}
+        <div style={{ marginBottom: "0" }}>
+          <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Activities / Leadership</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {activities.map((a) => (
+              <div key={a.title} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
+                <div>
+                  <h3 style={{ color: "#fff", fontSize: "15px", fontWeight: 700, margin: "0 0 4px" }}>{a.title}</h3>
+                  <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", margin: 0 }}>{a.desc}</p>
+                </div>
+                {a.badge && (
+                  <span style={{
+                    background: "rgba(255,160,50,0.12)",
+                    color: "#fbbf24",
+                    border: "1px solid rgba(255,160,50,0.2)",
+                    fontSize: "11px",
+                    padding: "2px 8px",
+                    borderRadius: "4px",
+                    flexShrink: 0,
+                    whiteSpace: "nowrap",
+                  }}>
+                    {a.badge}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <hr style={divider} />
+
+        {/* Coursework */}
+        <div>
+          <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Relevant Coursework</h2>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {coursework.map((c, i) => (
+              <div key={c.name} style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "14px 0",
+                borderBottom: i < coursework.length - 1
+                  ? "1px solid rgba(255,255,255,0.05)"
+                  : "none",
+              }}>
+                <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", fontWeight: 500 }}>
+                  {c.name}
+                </span>
+                <span style={{ ...gradientText, fontSize: "24px", fontWeight: 900 }}>
+                  {c.score}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   )
 }
-
