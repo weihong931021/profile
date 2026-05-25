@@ -1,3 +1,5 @@
+"use client"
+
 import { ExternalLink, Github, Gitlab } from "lucide-react"
 
 interface ProjectCardProps {
@@ -11,6 +13,32 @@ interface ProjectCardProps {
   isInProgress?: boolean
 }
 
+const AI_TECH = new Set([
+  "LangGraph", "LangChain", "FastAPI", "Python",
+  "YOLOv11", "OpenCV", "CVAT", "TensorFlow", "Scikit-learn",
+])
+const WEB3_TECH = new Set([
+  "Solidity", "Hardhat", "ethers.js", "MetaMask",
+])
+
+function getBadgeStyle(tech: string) {
+  if (AI_TECH.has(tech)) return {
+    background: "rgba(255, 160, 50, 0.15)",
+    color: "#fbbf24",
+    border: "1px solid rgba(255, 160, 50, 0.25)",
+  }
+  if (WEB3_TECH.has(tech)) return {
+    background: "rgba(180, 80, 255, 0.15)",
+    color: "#d08bff",
+    border: "1px solid rgba(180, 80, 255, 0.2)",
+  }
+  return {
+    background: "rgba(255, 255, 255, 0.05)",
+    color: "rgba(255, 255, 255, 0.4)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+  }
+}
+
 export function ProjectCard({
   title,
   subtitle,
@@ -22,73 +50,178 @@ export function ProjectCard({
   isInProgress = false,
 }: ProjectCardProps) {
   return (
-    <div className="bg-card shadow-md p-6 lg:p-8">
+    <div
+      style={{
+        background: "rgba(255, 255, 255, 0.04)",
+        border: "1px solid rgba(255, 255, 255, 0.07)",
+        borderRadius: "12px",
+        padding: "24px",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        transition: "border-color 0.25s, transform 0.25s, box-shadow 0.25s",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "rgba(255, 160, 50, 0.3)"
+        e.currentTarget.style.transform = "translateY(-2px)"
+        e.currentTarget.style.boxShadow = "0 8px 32px rgba(255, 160, 50, 0.08)"
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.07)"
+        e.currentTarget.style.transform = "translateY(0)"
+        e.currentTarget.style.boxShadow = "none"
+      }}
+    >
       {/* Header */}
-      <div className="flex items-start gap-3 mb-4">
-        <div className="w-1 h-6 bg-primary flex-shrink-0 mt-0.5"></div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <h3 className="text-lg font-bold text-primary">{title}</h3>
-          </div>
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        gap: "12px",
+        marginBottom: "12px",
+      }}>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ color: "#fff", fontSize: "16px", fontWeight: 700, margin: "0 0 4px" }}>
+            {title}
+          </h3>
+          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "13px", margin: 0 }}>
+            {subtitle}
+          </p>
         </div>
+
+        {isInProgress ? (
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
+            <div style={{
+              width: "7px", height: "7px",
+              borderRadius: "50%",
+              background: "#ffa032",
+              animation: "neon-dot-pulse 1.5s ease-in-out infinite",
+            }} />
+            <span style={{ color: "#fbbf24", fontSize: "11px", fontWeight: 600, letterSpacing: "1px" }}>
+              進行中
+            </span>
+          </div>
+        ) : (
+          <span style={{
+            background: "rgba(255, 160, 50, 0.12)",
+            color: "#fbbf24",
+            border: "1px solid rgba(255, 160, 50, 0.2)",
+            fontSize: "11px",
+            padding: "2px 8px",
+            borderRadius: "4px",
+            flexShrink: 0,
+          }}>
+            完成
+          </span>
+        )}
       </div>
 
-      {/* Tech Stack */}
-      <div className="flex flex-wrap gap-2 mb-4 ml-4">
+      {/* Tech badges */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "16px" }}>
         {tech.map((t) => (
-          <span
-            key={t}
-            className="px-2 py-1 text-xs font-medium bg-secondary text-secondary-foreground"
-          >
+          <span key={t} style={{
+            ...getBadgeStyle(t),
+            fontSize: "11px",
+            padding: "3px 9px",
+            borderRadius: "5px",
+          }}>
             {t}
           </span>
         ))}
       </div>
 
       {/* Description */}
-      <ul className="space-y-2 mb-6 ml-4">
-        {description.map((item, index) => (
-          <li key={index} className="text-sm text-card-foreground/80 flex items-start gap-2">
-            <span className="text-primary mt-0.5 flex-shrink-0">•</span>
+      <ul style={{
+        margin: "0 0 20px", padding: 0,
+        listStyle: "none",
+        display: "flex", flexDirection: "column", gap: "8px",
+      }}>
+        {description.map((item, i) => (
+          <li key={i} style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "8px",
+            color: "rgba(255,255,255,0.55)",
+            fontSize: "13px",
+            lineHeight: 1.6,
+          }}>
+            <span style={{ color: "#ffa032", flexShrink: 0, marginTop: "2px" }}>·</span>
             <span>{item}</span>
           </li>
         ))}
       </ul>
 
-      {/* Buttons */}
+      {/* Links */}
       {(projectUrl || githubUrl || gitlabUrl) && (
-        <div className="flex flex-wrap gap-3 ml-4">
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
           {projectUrl && (
-            <a 
-              href={projectUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+            <a
+              href={projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                background: "linear-gradient(135deg, rgba(255,160,50,0.5), rgba(180,80,255,0.5))",
+                color: "#fff", fontSize: "12px", fontWeight: 500,
+                padding: "6px 14px", borderRadius: "6px",
+                border: "1px solid rgba(255,255,255,0.1)",
+                textDecoration: "none", transition: "opacity 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.8" }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1" }}
             >
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink size={13} />
               查看專案
             </a>
           )}
           {githubUrl && (
-            <a 
-              href={githubUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-2 px-4 py-2 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                background: "rgba(255,255,255,0.06)",
+                color: "rgba(255,255,255,0.55)", fontSize: "12px", fontWeight: 500,
+                padding: "6px 14px", borderRadius: "6px",
+                border: "1px solid rgba(255,255,255,0.1)",
+                textDecoration: "none", transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#fff"
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "rgba(255,255,255,0.55)"
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"
+              }}
             >
-              <Github className="h-4 w-4" />
+              <Github size={13} />
               GitHub
             </a>
           )}
           {gitlabUrl && (
-            <a 
-              href={gitlabUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-2 px-4 py-2 border border-foreground/20 text-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
+            <a
+              href={gitlabUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: "6px",
+                background: "rgba(255,255,255,0.06)",
+                color: "rgba(255,255,255,0.55)", fontSize: "12px", fontWeight: 500,
+                padding: "6px 14px", borderRadius: "6px",
+                border: "1px solid rgba(255,255,255,0.1)",
+                textDecoration: "none", transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#fff"
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "rgba(255,255,255,0.55)"
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"
+              }}
             >
-              <Gitlab className="h-4 w-4" />
+              <Gitlab size={13} />
               GitLab
             </a>
           )}
