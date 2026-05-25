@@ -129,12 +129,6 @@
   }
 }
 
-/* ── Dark Neon base ── */
-body {
-  background-color: #080810 !important;
-  color: #ffffff;
-}
-
 /* ── Animation keyframes ── */
 @keyframes neon-float {
   0%, 100% { transform: translateY(0) scale(1); }
