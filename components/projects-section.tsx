@@ -72,35 +72,70 @@ const inProgressProjects = [
 
 export function ProjectsSection() {
   return (
-    <section className="min-h-screen bg-secondary">
-      {/* Header */}
-      <div className="text-center py-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-          <span className="inline-block w-3 h-3 bg-primary mr-3"></span>
-          Projects
-        </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-4 px-4">
-          以下是我參與過的專案，涵蓋 AI 系統、Web3、全端開發與電腦視覺等領域。
-        </p>
-      </div>
+    <section style={{ minHeight: "100vh", background: "#080810", paddingBottom: "80px", position: "relative" }}>
+      {/* Ambient blobs (fixed so they don't scroll) */}
+      <div style={{
+        position: "fixed", top: "20%", right: "-80px",
+        width: "280px", height: "280px",
+        background: "rgba(255, 160, 50, 0.07)",
+        borderRadius: "50%", filter: "blur(80px)",
+        pointerEvents: "none", zIndex: 0,
+        animation: "neon-pulse 5s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "20%", left: "-60px",
+        width: "240px", height: "240px",
+        background: "rgba(180, 80, 255, 0.07)",
+        borderRadius: "50%", filter: "blur(70px)",
+        pointerEvents: "none", zIndex: 0,
+        animation: "neon-pulse 5s ease-in-out infinite 2.5s",
+      }} />
 
-      {/* Projects Grid */}
-      <div className="container mx-auto max-w-4xl px-4 pb-16">
-        <div className="space-y-6">
+      <div style={{ position: "relative", zIndex: 1, maxWidth: "768px", margin: "0 auto", padding: "48px 24px 0" }}>
+        {/* Page header */}
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+          <h1 style={{
+            fontSize: "clamp(36px, 6vw, 56px)",
+            fontWeight: 900,
+            background: "linear-gradient(90deg, #ffa032, #b450ff)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            margin: "0 0 12px",
+          }}>
+            Projects
+          </h1>
+          <p style={{
+            color: "rgba(255,255,255,0.35)",
+            fontSize: "15px",
+            maxWidth: "480px",
+            margin: "0 auto",
+            lineHeight: 1.6,
+          }}>
+            涵蓋 AI 系統、Web3、全端開發與電腦視覺等領域。
+          </p>
+        </div>
+
+        {/* Completed projects */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {completedProjects.map((project) => (
             <ProjectCard key={project.title} {...project} />
           ))}
         </div>
 
-        {/* In Progress Section */}
-        <div className="mt-20">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              <span className="inline-block w-3 h-3 bg-amber-500 mr-3"></span>
+        {/* In Progress */}
+        <div style={{ marginTop: "64px" }}>
+          <div style={{ textAlign: "center", marginBottom: "32px" }}>
+            <h2 style={{
+              fontSize: "clamp(28px, 5vw, 40px)",
+              fontWeight: 900,
+              color: "#ffa032",
+              margin: 0,
+            }}>
               進行中 In Progress
             </h2>
           </div>
-          <div className="space-y-6">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {inProgressProjects.map((project) => (
               <ProjectCard key={project.title} {...project} />
             ))}
