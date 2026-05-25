@@ -2,14 +2,13 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 
 const navItems = [
-  { href: "/", label: "ABOUT ME" },
-  { href: "/resume", label: "RESUME" },
-  { href: "/projects", label: "PROJECTS" },
+  { href: "/", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/resume", label: "Resume" },
 ]
 
 export function Navbar() {
@@ -17,71 +16,114 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-card">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="inline-block w-2 h-2 bg-primary"></span>
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            黃偉閎
-          </span>
-          <span className="text-sm text-muted-foreground">/</span>
-          <span className="text-xs text-muted-foreground tracking-widest uppercase">
-            Software Engineer
-          </span>
+    <header
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        height: "56px",
+        background: "rgba(8, 8, 16, 0.75)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0 24px",
+          height: "56px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Logo */}
+        <Link
+          href="/"
+          style={{
+            color: "#fff",
+            fontSize: "13px",
+            fontWeight: 800,
+            letterSpacing: "4px",
+            textDecoration: "none",
+          }}
+        >
+          W·H
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Desktop nav */}
+        <nav style={{ display: "flex", gap: "28px" }} className="hidden md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                pathname === item.href
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              )}
+              style={{
+                fontSize: "12px",
+                fontWeight: 500,
+                letterSpacing: "1px",
+                textDecoration: "none",
+                transition: "color 0.2s",
+                color: pathname === item.href
+                  ? "#ffa032"
+                  : "rgba(255, 255, 255, 0.4)",
+              }}
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile toggle */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "8px",
+            color: "rgba(255,255,255,0.6)",
+          }}
         >
-          {mobileMenuOpen ? (
-            <X className="h-6 w-6 text-foreground" />
-          ) : (
-            <Menu className="h-6 w-6 text-foreground" />
-          )}
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile nav */}
       {mobileMenuOpen && (
-        <nav className="md:hidden border-t border-border/40 bg-card">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary py-2",
-                  pathname === item.href
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+        <nav
+          style={{
+            background: "rgba(8, 8, 16, 0.95)",
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+            padding: "16px 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+          }}
+        >
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                fontSize: "13px",
+                fontWeight: 500,
+                letterSpacing: "1px",
+                textDecoration: "none",
+                color: pathname === item.href
+                  ? "#ffa032"
+                  : "rgba(255,255,255,0.5)",
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       )}
     </header>
