@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react"
 import { Github, Mail, Download } from "lucide-react"
+import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
 const skills: Record<string, string> = {
   "AI / Data": "LangGraph, LangChain, Scikit-learn, TensorFlow",
@@ -40,42 +41,27 @@ const divider: CSSProperties = {
   borderTop: "1px solid rgba(255,255,255,0.06)",
 }
 
-const gradientText: CSSProperties = {
-  background: "linear-gradient(90deg, #ffa032, #b450ff)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  backgroundClip: "text",
+const accentText: CSSProperties = {
+  color: "#ffa032",
 }
 
 export function ResumeSection() {
   return (
-    <section style={{ minHeight: "100vh", background: "#080810", paddingBottom: "80px", position: "relative" }}>
-      {/* Ambient blobs */}
-      <div style={{
-        position: "fixed", top: "15%", left: "-80px",
-        width: "260px", height: "260px",
-        background: "rgba(255,160,50,0.07)",
-        borderRadius: "50%", filter: "blur(80px)",
-        pointerEvents: "none", zIndex: 0,
-        animation: "neon-pulse 5s ease-in-out infinite",
-      }} />
-      <div style={{
-        position: "fixed", bottom: "25%", right: "-60px",
-        width: "220px", height: "220px",
-        background: "rgba(180,80,255,0.07)",
-        borderRadius: "50%", filter: "blur(70px)",
-        pointerEvents: "none", zIndex: 0,
-        animation: "neon-pulse 5s ease-in-out infinite 2.5s",
-      }} />
+    <section style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
+      <PortfolioBackground variant="mesh" />
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: "768px", margin: "0 auto", padding: "48px 24px 0" }}>
+      <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* Page title */}
-        <div style={{ textAlign: "center", marginBottom: "48px" }}>
-          <h1 style={{ ...gradientText, fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 900, margin: "0 0 8px" }}>
+        <div style={{ textAlign: "center", marginBottom: "56px" }}>
+          <h1 style={{ fontSize: "clamp(42px, 6vw, 64px)", fontWeight: 900, color: "#fff", margin: "0 0 12px", lineHeight: 1 }}>
             Resume
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px", margin: 0 }}>
-            About Me &amp; Skills
+          <p style={{
+            fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+            color: "rgba(255,255,255,.4)", margin: 0,
+          }}>
+            SKILLS &amp; EXPERIENCE
           </p>
         </div>
 
@@ -84,7 +70,7 @@ export function ResumeSection() {
           <h2 style={{ color: "#fff", fontSize: "clamp(20px, 4vw, 28px)", fontWeight: 800, margin: "0 0 6px" }}>
             國立中央大學資訊管理學系
           </h2>
-          <p style={{ ...gradientText, fontSize: "17px", fontWeight: 700, margin: "0 0 20px" }}>
+          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "12px", fontWeight: 500, letterSpacing: "2px", margin: "0 0 20px" }}>
             人工智慧學分學程
           </p>
 
@@ -92,13 +78,13 @@ export function ResumeSection() {
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "20px" }}>
             <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
               <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>RANK</p>
-              <p style={{ ...gradientText, fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
+              <p style={{ color: "#fff", fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
                 32<span style={{ fontSize: "14px", opacity: 0.5 }}>/99</span>
               </p>
             </div>
             <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
               <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>AVERAGE</p>
-              <p style={{ ...gradientText, fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
+              <p style={{ color: "#fff", fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
                 89.24
               </p>
             </div>
@@ -106,15 +92,16 @@ export function ResumeSection() {
 
           {/* Domain tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            <span style={{ background: "rgba(255,160,50,0.15)", color: "#fbbf24", border: "1px solid rgba(255,160,50,0.25)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
-              AI System Design
-            </span>
-            <span style={{ background: "rgba(180,80,255,0.15)", color: "#d08bff", border: "1px solid rgba(180,80,255,0.2)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
-              Multi-Agent Workflow
-            </span>
-            <span style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)", fontSize: "12px", padding: "4px 12px", borderRadius: "5px" }}>
-              Full-Stack Development
-            </span>
+            {["AI System Design", "Multi-Agent Workflow", "Full-Stack Development"].map(tag => (
+              <span key={tag} style={{
+                background: "rgba(255,255,255,0.05)",
+                color: "rgba(255,255,255,0.38)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                fontSize: "12px", padding: "4px 12px", borderRadius: "5px",
+              }}>
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
@@ -189,9 +176,9 @@ export function ResumeSection() {
                 </div>
                 {a.badge && (
                   <span style={{
-                    background: "rgba(255,160,50,0.12)",
-                    color: "#fbbf24",
-                    border: "1px solid rgba(255,160,50,0.2)",
+                    background: "rgba(255,255,255,0.05)",
+                    color: "rgba(255,255,255,0.45)",
+                    border: "1px solid rgba(255,255,255,0.1)",
                     fontSize: "11px",
                     padding: "2px 8px",
                     borderRadius: "4px",
@@ -225,12 +212,13 @@ export function ResumeSection() {
                 <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "15px", fontWeight: 500 }}>
                   {c.name}
                 </span>
-                <span style={{ ...gradientText, fontSize: "24px", fontWeight: 900 }}>
+                <span style={{ color: "#fff", fontSize: "24px", fontWeight: 900 }}>
                   {c.score}
                 </span>
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     </section>

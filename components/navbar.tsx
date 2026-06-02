@@ -2,130 +2,108 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
 
 const navItems = [
-  { href: "/", label: "About" },
+  { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
   { href: "/resume", label: "Resume" },
 ]
 
-export function Navbar() {
-  const pathname = usePathname()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+function SlideLink({ href, label, active }: { href: string; label: string; active: boolean }) {
   return (
-    <header
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        height: "56px",
-        background: "rgba(8, 8, 16, 0.75)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
-      }}
+    <Link
+      href={href}
+      style={{ textDecoration: "none", display: "inline-block", height: "18px", overflow: "hidden" }}
+      className="group"
     >
-      <div
+      <span
+        className="group-hover:-translate-y-1/2"
         style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          height: "56px",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: "column",
+          transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)",
         }}
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          style={{
-            color: "#fff",
-            fontSize: "13px",
-            fontWeight: 800,
-            letterSpacing: "4px",
-            textDecoration: "none",
-          }}
-        >
-          W·H
+        <span style={{
+          display: "block",
+          fontSize: "12px",
+          fontWeight: active ? 600 : 400,
+          letterSpacing: "0.6px",
+          lineHeight: "18px",
+          color: active ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.38)",
+          whiteSpace: "nowrap",
+        }}>
+          {label}
+        </span>
+        <span style={{
+          display: "block",
+          fontSize: "12px",
+          fontWeight: 600,
+          letterSpacing: "0.6px",
+          lineHeight: "18px",
+          color: "rgba(255,255,255,0.88)",
+          whiteSpace: "nowrap",
+        }}>
+          {label}
+        </span>
+      </span>
+    </Link>
+  )
+}
+
+export function Navbar() {
+  const pathname = usePathname()
+
+  return (
+    <header style={{
+      position: "fixed",
+      top: "20px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      zIndex: 50,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      width: "90vw",
+      padding: "0 4vw",
+      borderRadius: "9999px",
+      background: "rgba(255,255,255,0.055)",
+      backdropFilter: "blur(24px)",
+      WebkitBackdropFilter: "blur(24px)",
+      border: "1px solid rgba(255,255,255,0.11)",
+      boxShadow: [
+        "inset 0 1px 0 rgba(255,255,255,0.13)",
+        "inset 0 -1px 0 rgba(0,0,0,0.22)",
+        "inset 1px 0 0 rgba(255,255,255,0.05)",
+        "inset -1px 0 0 rgba(255,255,255,0.05)",
+        "0 8px 40px rgba(0,0,0,0.5)",
+        "0 2px 10px rgba(0,0,0,0.35)",
+      ].join(", "),
+      transition: "border-radius 0s",
+    }}>
+
+      {/* Main row */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "46px" }}>
+
+        {/* Brand — left */}
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <span style={{
+            fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px",
+            color: "rgba(255,255,255,0.5)",
+            whiteSpace: "nowrap",
+            lineHeight: "46px",
+          }}>
+            WEIHONG&apos;S WEBSITE
+          </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav style={{ display: "flex", gap: "28px" }} className="hidden md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                fontSize: "12px",
-                fontWeight: 500,
-                letterSpacing: "1px",
-                textDecoration: "none",
-                transition: "color 0.2s",
-                color: pathname === item.href
-                  ? "#ffa032"
-                  : "rgba(255, 255, 255, 0.4)",
-              }}
-            >
-              {item.label}
-            </Link>
+        {/* Nav links — right */}
+        <nav style={{ display: "flex", alignItems: "center", gap: "28px", marginLeft: "auto" }}>
+          {navItems.map(item => (
+            <SlideLink key={item.href} href={item.href} label={item.label} active={pathname === item.href} />
           ))}
         </nav>
-
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            color: "rgba(255,255,255,0.6)",
-          }}
-        >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
       </div>
-
-      {/* Mobile nav */}
-      {mobileMenuOpen && (
-        <nav
-          style={{
-            background: "rgba(8, 8, 16, 0.95)",
-            borderTop: "1px solid rgba(255,255,255,0.05)",
-            padding: "16px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-          }}
-        >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                fontSize: "13px",
-                fontWeight: 500,
-                letterSpacing: "1px",
-                textDecoration: "none",
-                color: pathname === item.href
-                  ? "#ffa032"
-                  : "rgba(255,255,255,0.5)",
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      )}
     </header>
   )
 }

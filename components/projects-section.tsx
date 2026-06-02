@@ -1,4 +1,5 @@
 import { ProjectCard } from "@/components/project-card"
+import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
 const completedProjects = [
   {
@@ -72,47 +73,28 @@ const inProgressProjects = [
 
 export function ProjectsSection() {
   return (
-    <section style={{ minHeight: "100vh", background: "#080810", paddingBottom: "80px", position: "relative" }}>
-      {/* Ambient blobs (fixed so they don't scroll) */}
-      <div style={{
-        position: "fixed", top: "20%", right: "-80px",
-        width: "280px", height: "280px",
-        background: "rgba(255, 160, 50, 0.07)",
-        borderRadius: "50%", filter: "blur(80px)",
-        pointerEvents: "none", zIndex: 0,
-        animation: "neon-pulse 5s ease-in-out infinite",
-      }} />
-      <div style={{
-        position: "fixed", bottom: "20%", left: "-60px",
-        width: "240px", height: "240px",
-        background: "rgba(180, 80, 255, 0.07)",
-        borderRadius: "50%", filter: "blur(70px)",
-        pointerEvents: "none", zIndex: 0,
-        animation: "neon-pulse 5s ease-in-out infinite 2.5s",
-      }} />
+    <section style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
+      <PortfolioBackground variant="mesh" />
 
-      <div style={{ position: "relative", zIndex: 1, maxWidth: "768px", margin: "0 auto", padding: "48px 24px 0" }}>
+      <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* Page header */}
-        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+        <div style={{ textAlign: "center", marginBottom: "56px" }}>
           <h1 style={{
-            fontSize: "clamp(36px, 6vw, 56px)",
+            fontSize: "clamp(42px, 6vw, 64px)",
             fontWeight: 900,
-            background: "linear-gradient(90deg, #ffa032, #b450ff)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            margin: "0 0 12px",
+            color: "#fff",
+            margin: "0 0 16px",
+            lineHeight: 1,
           }}>
             Projects
           </h1>
           <p style={{
-            color: "rgba(255,255,255,0.35)",
-            fontSize: "15px",
-            maxWidth: "480px",
-            margin: "0 auto",
-            lineHeight: 1.6,
+            fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+            color: "rgba(255,255,255,.4)",
+            margin: 0,
           }}>
-            涵蓋 AI 系統、Web3、全端開發與電腦視覺等領域。
+            AI · WEB3 · FULLSTACK · COMPUTER VISION
           </p>
         </div>
 
@@ -125,14 +107,21 @@ export function ProjectsSection() {
 
         {/* In Progress */}
         <div style={{ marginTop: "64px" }}>
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
+          <div style={{ marginBottom: "28px" }}>
+            <p style={{
+              fontSize: "10px", fontWeight: 600, letterSpacing: "4px",
+              color: "rgba(255,255,255,.18)", textTransform: "uppercase",
+              margin: "0 0 8px",
+            }}>
+              Currently Working On
+            </p>
             <h2 style={{
-              fontSize: "clamp(28px, 5vw, 40px)",
-              fontWeight: 900,
-              color: "#ffa032",
+              fontSize: "clamp(22px, 3.5vw, 30px)",
+              fontWeight: 800,
+              color: "#fff",
               margin: 0,
             }}>
-              進行中 In Progress
+              In Progress
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -140,6 +129,7 @@ export function ProjectsSection() {
               <ProjectCard key={project.title} {...project} />
             ))}
           </div>
+        </div>
         </div>
       </div>
     </section>
