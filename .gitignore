@@ -15,3 +15,26 @@ node_modules
 .next/
 .DS_Store
 .superpowers/
+
+# --- Working artifacts (not part of the deployed site) ---
+# Presentation deck, course templates, build artifacts
+presentation/
+*.pptx
+~$*
+
+# Personal photos / stray assets
+頭貼.jpg
+頭貼方.png
+public/images/profile-cutout.png
+
+# Downloaded skills (proprietary) & local tool output
+.claude/
+.playwright-mcp/
+
+# Design drafts — do not expose publicly
+public/.design/
+.design/about-hero-v2.html
+
+# Stray / unused components
+components/about-hero 2.tsx
+components/ui/unique-testimonial.tsx
