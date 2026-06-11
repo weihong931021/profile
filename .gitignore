@@ -22,12 +22,11 @@ presentation/
 *.pptx
 ~$*
 
-# Personal photos / stray assets
-頭貼.jpg
-頭貼方.png
+# Personal / source photos — kept locally, not in repo or deployed image
+source-assets/
 public/images/profile-cutout.png
 
-# Local Python venv junk (16MB, must never reach the repo or the deployed image)
+# Local Python venv junk (must never reach the repo or the deployed image)
 public/venv/
 
 # Downloaded skills (proprietary) & local tool output
