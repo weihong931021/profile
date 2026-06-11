@@ -1,0 +1,27 @@
+node_modules
+.next
+.git
+.gitignore
+.github
+Dockerfile
+.dockerignore
+README.md
+AGENTS.md
+
+# local junk in public/ (must NOT be served as static files)
+public/venv
+public/extract_pdf.js
+public/extract_pdf.py
+public/resume-text.txt
+**/.DS_Store
+
+# working artifacts (not needed in the image)
+presentation
+.claude
+.playwright-mcp
+.design
+public/.design
+*.pptx
+~$*
+頭貼.jpg
+頭貼方.png

@@ -27,6 +27,9 @@ presentation/
 頭貼方.png
 public/images/profile-cutout.png
 
+# Local Python venv junk (16MB, must never reach the repo or the deployed image)
+public/venv/
+
 # Downloaded skills (proprietary) & local tool output
 .claude/
 .playwright-mcp/

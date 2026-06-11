@@ -1,0 +1,32 @@
+# 控制 `gcloud run deploy --source` 上傳到 Cloud Build 的內容
+# （存在此檔時不再 fallback 到 .gitignore，所以要列完整）
+
+.git
+.gitignore
+.github
+
+# 相依與建置產物（容器內會自己 pnpm install / build）
+node_modules
+.next
+out
+
+# 本機垃圾 / 非部署資產
+public/venv
+public/extract_pdf.js
+public/extract_pdf.py
+public/resume-text.txt
+.DS_Store
+**/.DS_Store
+
+# 工作檔案，不需進映像
+presentation
+*.pptx
+*.docx
+~$*
+.claude
+.playwright-mcp
+.design
+public/.design
+outputs
+頭貼.jpg
+頭貼方.png
