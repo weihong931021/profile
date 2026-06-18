@@ -263,6 +263,40 @@ export function AboutHero() {
           </div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <div style={{
+        position: "absolute", bottom: "36px",
+        left: 0, right: 0,
+        display: "flex", justifyContent: "center",
+        pointerEvents: "none",
+      }}>
+        <button
+          onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: "7px",
+            animation: "scroll-bob 2.4s ease-in-out infinite",
+            opacity: 0.32,
+            pointerEvents: "auto",
+            padding: "8px 20px",
+            transition: "opacity 0.3s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.72" }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.32" }}
+        >
+          <span style={{
+            fontSize: "9px", letterSpacing: "3.5px", color: "#fff",
+            fontWeight: 600, textTransform: "uppercase",
+          }}>
+            scroll
+          </span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+      </div>
     </section>
   )
 }
