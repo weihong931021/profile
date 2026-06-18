@@ -55,14 +55,19 @@ export function ResumeSection() {
     const blocks = sectionRef.current?.querySelectorAll(".scroll-block") ?? []
     const triggers: gsap.core.ScrollTrigger[] = []
     blocks.forEach((block) => {
-      const trig = ScrollTrigger.create({
-        trigger: block,
-        start: "top 88%",
-        onEnter: () => {
-          gsap.fromTo(block, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" })
-        },
-      })
-      triggers.push(trig)
+      const anim = gsap.fromTo(
+        block,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1, y: 0, duration: 0.55, ease: "power3.out",
+          scrollTrigger: {
+            trigger: block,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+      if (anim.scrollTrigger) triggers.push(anim.scrollTrigger)
     })
     return () => triggers.forEach((t) => t.kill())
   }, [])

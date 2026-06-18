@@ -83,15 +83,22 @@ export function ProjectsSection() {
     const triggers: gsap.core.ScrollTrigger[] = []
     const cards = sectionRef.current?.querySelectorAll(".scroll-card") ?? []
 
-    cards.forEach((card) => {
-      const trig = ScrollTrigger.create({
-        trigger: card,
-        start: "top 88%",
-        onEnter: () => {
-          gsap.fromTo(card, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" })
-        },
-      })
-      triggers.push(trig)
+    cards.forEach((card, i) => {
+      const anim = gsap.fromTo(
+        card,
+        { opacity: 0, y: 44, scale: 0.97 },
+        {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.65, ease: "power3.out",
+          delay: i === 0 ? 0 : 0,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+      if (anim.scrollTrigger) triggers.push(anim.scrollTrigger)
     })
 
     return () => triggers.forEach((t) => t.kill())

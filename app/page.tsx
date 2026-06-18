@@ -56,15 +56,14 @@ export default function HomePage() {
         <PortfolioBackground variant="mesh" />
       </div>
 
-      {/* White overlay — fades in for Projects, out for Resume */}
+      {/* Semi-transparent light overlay — fades in for Projects, lets mesh gradient show through */}
       <div
         id="projects-bg"
         style={{
           position: "fixed", inset: 0, zIndex: 1,
-          background: "#f2f2f2",
+          background: "rgba(238,238,238,0.91)",
           opacity: 0,
           pointerEvents: "none",
-          transition: "none",
         }}
       />
 
