@@ -8,7 +8,13 @@ const navItems = [
   { id: "resume",   label: "Resume" },
 ]
 
-function SlideLink({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function SlideLink({
+  label, active, onClick, lightMode,
+}: { label: string; active: boolean; onClick: () => void; lightMode: boolean }) {
+  const activeColor  = lightMode ? "rgba(0,0,0,0.85)"  : "rgba(255,255,255,0.88)"
+  const mutedColor   = lightMode ? "rgba(0,0,0,0.38)"  : "rgba(255,255,255,0.38)"
+  const hoverColor   = lightMode ? "rgba(0,0,0,0.85)"  : "rgba(255,255,255,0.88)"
+
   return (
     <button
       onClick={onClick}
@@ -20,31 +26,21 @@ function SlideLink({ label, active, onClick }: { label: string; active: boolean;
     >
       <span
         className="group-hover:-translate-y-1/2"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)",
-        }}
+        style={{ display: "flex", flexDirection: "column", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)" }}
       >
         <span style={{
-          display: "block",
-          fontSize: "12px",
-          fontWeight: active ? 600 : 400,
-          letterSpacing: "0.6px",
-          lineHeight: "18px",
-          color: active ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.38)",
+          display: "block", fontSize: "12px", fontWeight: active ? 600 : 400,
+          letterSpacing: "0.6px", lineHeight: "18px",
+          color: active ? activeColor : mutedColor,
           whiteSpace: "nowrap",
+          transition: "color 0.3s",
         }}>
           {label}
         </span>
         <span style={{
-          display: "block",
-          fontSize: "12px",
-          fontWeight: 600,
-          letterSpacing: "0.6px",
-          lineHeight: "18px",
-          color: "rgba(255,255,255,0.88)",
-          whiteSpace: "nowrap",
+          display: "block", fontSize: "12px", fontWeight: 600,
+          letterSpacing: "0.6px", lineHeight: "18px",
+          color: hoverColor, whiteSpace: "nowrap",
         }}>
           {label}
         </span>
@@ -55,6 +51,7 @@ function SlideLink({ label, active, onClick }: { label: string; active: boolean;
 
 export function Navbar() {
   const [activeSection, setActiveSection] = useState("home")
+  const lightMode = activeSection === "projects"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,18 +90,21 @@ export function Navbar() {
       width: "90vw",
       padding: "0 4vw",
       borderRadius: "9999px",
-      background: "rgba(255,255,255,0.055)",
+      background: lightMode ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.055)",
       backdropFilter: "blur(24px)",
       WebkitBackdropFilter: "blur(24px)",
-      border: "1px solid rgba(255,255,255,0.11)",
-      boxShadow: [
-        "inset 0 1px 0 rgba(255,255,255,0.13)",
-        "inset 0 -1px 0 rgba(0,0,0,0.22)",
-        "inset 1px 0 0 rgba(255,255,255,0.05)",
-        "inset -1px 0 0 rgba(255,255,255,0.05)",
-        "0 8px 40px rgba(0,0,0,0.5)",
-        "0 2px 10px rgba(0,0,0,0.35)",
-      ].join(", "),
+      border: lightMode ? "1px solid rgba(0,0,0,0.09)" : "1px solid rgba(255,255,255,0.11)",
+      boxShadow: lightMode
+        ? "0 4px 24px rgba(0,0,0,0.1)"
+        : [
+            "inset 0 1px 0 rgba(255,255,255,0.13)",
+            "inset 0 -1px 0 rgba(0,0,0,0.22)",
+            "inset 1px 0 0 rgba(255,255,255,0.05)",
+            "inset -1px 0 0 rgba(255,255,255,0.05)",
+            "0 8px 40px rgba(0,0,0,0.5)",
+            "0 2px 10px rgba(0,0,0,0.35)",
+          ].join(", "),
+      transition: "background 0.4s, border-color 0.4s, box-shadow 0.4s",
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "46px" }}>
         {/* Brand */}
@@ -114,7 +114,8 @@ export function Navbar() {
         >
           <span style={{
             fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px",
-            color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap", lineHeight: "46px",
+            color: lightMode ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.5)",
+            whiteSpace: "nowrap", lineHeight: "46px", transition: "color 0.3s",
           }}>
             WEIHONG&apos;S WEBSITE
           </span>
@@ -128,6 +129,7 @@ export function Navbar() {
               label={item.label}
               active={activeSection === item.id}
               onClick={() => scrollTo(item.id)}
+              lightMode={lightMode}
             />
           ))}
         </nav>

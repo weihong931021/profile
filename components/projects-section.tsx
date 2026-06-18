@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ProjectCard } from "@/components/project-card"
-import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
 const completedProjects = [
   {
@@ -81,41 +80,39 @@ export function ProjectsSection() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
+    const triggers: gsap.core.ScrollTrigger[] = []
     const cards = sectionRef.current?.querySelectorAll(".scroll-card") ?? []
+
     cards.forEach((card) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 32 },
-        {
-          opacity: 1, y: 0, duration: 0.55, ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        }
-      )
+      const trig = ScrollTrigger.create({
+        trigger: card,
+        start: "top 88%",
+        onEnter: () => {
+          gsap.fromTo(card, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" })
+        },
+      })
+      triggers.push(trig)
     })
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+
+    return () => triggers.forEach((t) => t.kill())
   }, [])
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
-      <PortfolioBackground variant="mesh" />
-
-      <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
+      <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+
           {/* Page header */}
           <div className="scroll-card" style={{ textAlign: "center", marginBottom: "56px" }}>
             <h1 style={{
               fontSize: "clamp(42px, 6vw, 64px)", fontWeight: 900,
-              color: "#fff", margin: "0 0 16px", lineHeight: 1,
+              color: "rgba(0,0,0,0.85)", margin: "0 0 16px", lineHeight: 1,
             }}>
               Projects
             </h1>
             <p style={{
               fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
-              color: "rgba(255,255,255,.4)", margin: 0,
+              color: "rgba(0,0,0,0.4)", margin: 0,
             }}>
               AI · WEB3 · FULLSTACK · COMPUTER VISION
             </p>
@@ -125,7 +122,7 @@ export function ProjectsSection() {
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {completedProjects.map((project) => (
               <div key={project.title} className="scroll-card">
-                <ProjectCard {...project} />
+                <ProjectCard {...project} lightMode />
               </div>
             ))}
           </div>
@@ -135,23 +132,23 @@ export function ProjectsSection() {
             <div className="scroll-card" style={{ marginBottom: "28px" }}>
               <p style={{
                 fontSize: "10px", fontWeight: 600, letterSpacing: "4px",
-                color: "rgba(255,255,255,.18)", textTransform: "uppercase",
-                margin: "0 0 8px",
+                color: "rgba(0,0,0,0.22)", textTransform: "uppercase", margin: "0 0 8px",
               }}>
                 Currently Working On
               </p>
-              <h2 style={{ fontSize: "clamp(22px, 3.5vw, 30px)", fontWeight: 800, color: "#fff", margin: 0 }}>
+              <h2 style={{ fontSize: "clamp(22px, 3.5vw, 30px)", fontWeight: 800, color: "rgba(0,0,0,0.82)", margin: 0 }}>
                 In Progress
               </h2>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
               {inProgressProjects.map((project) => (
                 <div key={project.title} className="scroll-card">
-                  <ProjectCard {...project} />
+                  <ProjectCard {...project} lightMode />
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </section>

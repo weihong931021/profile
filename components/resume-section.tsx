@@ -5,7 +5,6 @@ import type { CSSProperties } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Github, Mail, Download } from "lucide-react"
-import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
 const skills: Record<string, string> = {
   "AI / Data": "LangGraph, LangChain, Scikit-learn, TensorFlow",
@@ -54,28 +53,23 @@ export function ResumeSection() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
     const blocks = sectionRef.current?.querySelectorAll(".scroll-block") ?? []
+    const triggers: gsap.core.ScrollTrigger[] = []
     blocks.forEach((block) => {
-      gsap.fromTo(
-        block,
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1, y: 0, duration: 0.5, ease: "power2.out",
-          scrollTrigger: {
-            trigger: block,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        }
-      )
+      const trig = ScrollTrigger.create({
+        trigger: block,
+        start: "top 88%",
+        onEnter: () => {
+          gsap.fromTo(block, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" })
+        },
+      })
+      triggers.push(trig)
     })
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+    return () => triggers.forEach((t) => t.kill())
   }, [])
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
-      <PortfolioBackground variant="mesh" />
-
-      <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
+      <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* Page title */}
         <div className="scroll-block" style={{ textAlign: "center", marginBottom: "56px" }}>

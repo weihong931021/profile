@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 import { LiquidButton, GlassFilterProvider } from "@/components/ui/liquid-glass-button"
 import { TextScramble } from "@/components/ui/text-scramble"
 import { Perspective } from "@/components/ui/perspective-highlight"
@@ -90,10 +89,8 @@ export function AboutHero() {
       paddingTop: "86px",
       display: "flex", alignItems: "center", justifyContent: "center",
       position: "relative", overflow: "hidden",
-      background: "#000000",
     }}>
       <GlassFilterProvider />
-      <PortfolioBackground variant="mesh" />
 
       {/* ── 2-column grid ── */}
       <div style={{
