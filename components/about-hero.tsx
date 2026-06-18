@@ -1,10 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 import { LiquidButton, GlassFilterProvider } from "@/components/ui/liquid-glass-button"
 import { TextScramble } from "@/components/ui/text-scramble"
@@ -86,314 +84,186 @@ export function AboutHero() {
   const router = useRouter()
   const [hoveredContact, setHoveredContact] = useState<number | null>(null)
 
-  const sectionRef    = useRef<HTMLElement>(null)
-  const avatarWrapRef = useRef<HTMLDivElement>(null)
-  const bioLine1Ref   = useRef<HTMLParagraphElement>(null)
-  const bioLine2Ref   = useRef<HTMLParagraphElement>(null)
-  const badgesRef     = useRef<HTMLDivElement>(null)
-  const ctaRef        = useRef<HTMLDivElement>(null)
-  const higgsfieldRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger)
-
-    const section = sectionRef.current
-    if (!section) return
-
-    // Master timeline — scroll progress drives the full 3-act narrative
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1.5,
-      },
-    })
-
-    // ── Act 0 (0–25%): Avatar enters ──
-    tl.fromTo(
-      avatarWrapRef.current,
-      { opacity: 0, scale: 0.82 },
-      { opacity: 1, scale: 1, ease: "power2.out", duration: 0.25 },
-      0
-    )
-    // Scroll hint fades out immediately
-    tl.fromTo(
-      "#scroll-hint",
-      { opacity: 1 },
-      { opacity: 0, duration: 0.08 },
-      0.02
-    )
-
-    // ── Act 1 (25–60%): Bio reveals, Higgsfield image enters ──
-    tl.fromTo(
-      bioLine1Ref.current,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, ease: "power2.out", duration: 0.18 },
-      0.25
-    )
-    tl.fromTo(
-      bioLine2Ref.current,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, ease: "power2.out", duration: 0.18 },
-      0.36
-    )
-    tl.fromTo(
-      higgsfieldRef.current,
-      { opacity: 0, x: 36 },
-      { opacity: 1, x: 0, ease: "power3.out", duration: 0.2 },
-      0.42
-    )
-
-    // ── Act 2 (62–100%): Badges stagger, CTA appears with white glow ──
-    const badgeEls = badgesRef.current
-      ? Array.from(badgesRef.current.querySelectorAll("button"))
-      : []
-    tl.fromTo(
-      badgeEls,
-      { opacity: 0, x: -18 },
-      { opacity: 1, x: 0, ease: "power2.out", duration: 0.12, stagger: 0.04 },
-      0.62
-    )
-    tl.fromTo(
-      ctaRef.current,
-      { opacity: 0, y: 14 },
-      { opacity: 1, y: 0, ease: "power2.out", duration: 0.14 },
-      0.76
-    )
-    const ctaBtns = ctaRef.current
-      ? Array.from(ctaRef.current.querySelectorAll("button"))
-      : []
-    tl.fromTo(
-      ctaBtns,
-      { boxShadow: "0 0 0px rgba(255,255,255,0)" },
-      { boxShadow: "0 0 22px rgba(255,255,255,0.18)", duration: 0.12 },
-      0.86
-    )
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-    }
-  }, [])
-
   return (
-    <section ref={sectionRef} style={{
-      height: "250vh",
-      position: "relative",
+    <section style={{
+      minHeight: "100vh",
+      paddingTop: "86px",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      position: "relative", overflow: "hidden",
       background: "#000000",
     }}>
-      {/* Sticky viewport — stays fixed while scrolling through 250vh */}
+      <GlassFilterProvider />
+      <PortfolioBackground variant="mesh" />
+
+      {/* ── 2-column grid ── */}
       <div style={{
-        position: "sticky",
-        top: 0,
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
+        position: "relative", zIndex: 10,
+        display: "grid", gridTemplateColumns: "1fr 36vw",
+        alignItems: "center", gap: "4vw",
+        maxWidth: "90vw", width: "100%", padding: "0 4vw",
       }}>
-        <GlassFilterProvider />
-        <PortfolioBackground variant="mesh" />
 
-        {/* ── 2-column grid ── */}
-        <div style={{
-          position: "relative", zIndex: 10,
-          display: "grid", gridTemplateColumns: "1fr 36vw",
-          alignItems: "center", gap: "4vw",
-          maxWidth: "90vw", width: "100%", padding: "86px 4vw 0",
-        }}>
-
-          {/* Left column */}
-          <div>
-            <div style={{ marginBottom: "2vh" }}>
-              <TextScramble
-                text="HUANG WEI-HONG"
-                scrambleClassName="text-white/20"
-                className="opacity-40 hover:opacity-100 transition-opacity duration-300"
-                autoPlay
-                autoPlayDelay={600}
-              />
-            </div>
-
-            <h1 style={{
-              fontFamily: "var(--font-noto-sans-tc), sans-serif",
-              fontSize: "clamp(58px, 7.5vw, 100px)", fontWeight: 900, lineHeight: 0.9,
-              color: "#fff", margin: "0 0 3vh",
-            }}>
-              黃偉閎
-            </h1>
-
-            <p style={{
-              fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
-              color: "rgba(255,255,255,.45)",
-              margin: "0 0 3.5vh",
-            }}>
-              AI · MULTI-AGENT · WEB3 · FULLSTACK
-            </p>
-
-            {/* Bio — revealed in Act 1 */}
-            <p ref={bioLine1Ref} style={{
-              opacity: 0,
-              fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
-              color: "rgba(255,255,255,.35)", maxWidth: "88%", margin: "0 0 2.2vh",
-            }}>
-              我目前就讀國立中央大學資訊管理學系，並修習人工智慧學分學程。專注於 AI 系統設計、Multi-Agent Workflow、全端開發與 Web3 應用。
-            </p>
-            <p ref={bioLine2Ref} style={{
-              opacity: 0,
-              fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
-              color: "rgba(255,255,255,.35)", maxWidth: "88%",
-              margin: "0 0 3.5vh",
-            }}>
-              過去參與過多個實務導向專案，包括股票分析 Multi-Agent 系統、Web3 DeFi 借貸協議、新生資訊平台 Blog 系統，以及電腦視覺行為辨識專案。
-            </p>
-
-            {/* Badges — revealed in Act 2 */}
-            <div ref={badgesRef} style={{ opacity: 0, display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "3.2vh" }}>
-              {["LangGraph", "Multi-Agent", "FastAPI", "Vue 3", "Solidity"].map(label => (
-                <LiquidButton
-                  key={label}
-                  size="sm"
-                  className="rounded-full text-[10px] font-medium tracking-[.5px] text-white/35 cursor-default"
-                >
-                  {label}
-                </LiquidButton>
-              ))}
-            </div>
-
-            {/* CTA — revealed in Act 2 */}
-            <div ref={ctaRef} style={{ opacity: 0, display: "flex", gap: "12px", marginBottom: "2.5vh" }}>
-              <LiquidButton
-                size="lg"
-                onClick={() => router.push("/resume")}
-                className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
-              >
-                RESUME
-              </LiquidButton>
-              <LiquidButton
-                size="lg"
-                onClick={() => router.push("/projects")}
-                className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
-              >
-                PROJECTS
-              </LiquidButton>
-            </div>
+        {/* Left column */}
+        <div>
+          <div style={{ marginBottom: "2vh", animation: "neon-fade-up .6s ease both" }}>
+            <TextScramble
+              text="HUANG WEI-HONG"
+              scrambleClassName="text-white/20"
+              className="opacity-40 hover:opacity-100 transition-opacity duration-300"
+              autoPlay
+              autoPlayDelay={600}
+            />
           </div>
 
-          {/* Right column */}
-          <div style={{
-            display: "flex", flexDirection: "column", alignItems: "center",
-            gap: "1.2vw", overflow: "visible", marginTop: "-2vh",
+          <h1 style={{
+            fontFamily: "var(--font-noto-sans-tc), sans-serif",
+            fontSize: "clamp(58px, 7.5vw, 100px)", fontWeight: 900, lineHeight: 0.9,
+            color: "#fff", margin: "0 0 3vh",
+            animation: "neon-fade-up .65s .08s ease both",
           }}>
+            黃偉閎
+          </h1>
 
-            {/* Avatar — revealed in Act 0 */}
-            <div ref={avatarWrapRef} style={{ opacity: 0 }}>
-              <Perspective
-                maxRotateX={18}
-                maxRotateY={22}
-                smoothing={0.08}
-                cardClassName="will-change-transform"
+          <p style={{
+            fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+            color: "rgba(255,255,255,.45)",
+            margin: "0 0 3.5vh",
+            animation: "neon-fade-up .65s .14s ease both",
+          }}>
+            AI · MULTI-AGENT · WEB3 · FULLSTACK
+          </p>
+
+          <p style={{
+            fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
+            color: "rgba(255,255,255,.35)", maxWidth: "88%", margin: "0 0 2.2vh",
+            animation: "neon-fade-up .65s .2s ease both",
+          }}>
+            我目前就讀國立中央大學資訊管理學系，並修習人工智慧學分學程。專注於 AI 系統設計、Multi-Agent Workflow、全端開發與 Web3 應用。
+          </p>
+          <p style={{
+            fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
+            color: "rgba(255,255,255,.35)", maxWidth: "88%",
+            margin: "0 0 3.5vh",
+            animation: "neon-fade-up .65s .26s ease both",
+          }}>
+            過去參與過多個實務導向專案，包括股票分析 Multi-Agent 系統、Web3 DeFi 借貸協議、新生資訊平台 Blog 系統，以及電腦視覺行為辨識專案。
+          </p>
+
+          {/* Badges */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "3.2vh", animation: "neon-fade-up .65s .32s ease both" }}>
+            {["LangGraph", "Multi-Agent", "FastAPI", "Vue 3", "Solidity"].map(label => (
+              <LiquidButton
+                key={label}
+                size="sm"
+                className="rounded-full text-[10px] font-medium tracking-[.5px] text-white/35 cursor-default"
               >
-                <div style={{
-                  width: "240px", height: "240px", borderRadius: "50%",
-                  overflow: "hidden", flexShrink: 0,
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}>
-                  <Image src="/images/profile.jpg" alt="黃偉閎" width={240} height={240}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.91) brightness(1.14)" }} priority />
-                </div>
-              </Perspective>
-            </div>
+                {label}
+              </LiquidButton>
+            ))}
+          </div>
 
-            {/* Higgsfield AI visual — revealed in Act 1 */}
-            <div ref={higgsfieldRef} style={{
-              opacity: 0,
-              borderRadius: "12px",
-              overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.08)",
-              width: "160px",
-            }}>
-              <Image
-                src="/images/ai-visual.jpg"
-                alt="AI Visualization"
-                width={160}
-                height={284}
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </div>
-
-            {/* Contact pills — always visible */}
-            <div style={{
-              display: "flex", gap: "6px", alignItems: "center",
-              marginTop: "2vh",
-            }}>
-              {CONTACTS.map((c, i) => {
-                const isHov = hoveredContact === i
-                return (
-                  <a
-                    key={c.short}
-                    href={c.href}
-                    target={c.external ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    onMouseEnter={() => setHoveredContact(i)}
-                    onMouseLeave={() => setHoveredContact(null)}
-                    style={{
-                      display: "flex", alignItems: "center", textDecoration: "none",
-                      borderRadius: "9999px", cursor: "pointer",
-                      padding: isHov ? "4px 11px 4px 4px" : "4px",
-                      background: isHov ? "rgba(255,255,255,.07)" : "transparent",
-                      border: "1px solid",
-                      borderColor: isHov ? "rgba(255,255,255,.12)" : "transparent",
-                      transition: "all .45s cubic-bezier(0.4,0,0.2,1)",
-                    }}
-                  >
-                    <div style={{
-                      width: "26px", height: "26px", borderRadius: "50%", flexShrink: 0,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      background: isHov ? "rgba(255,255,255,.15)" : "rgba(255,255,255,.07)",
-                      color: isHov ? "#ffffff" : "rgba(255,255,255,.4)",
-                      transition: "all .4s cubic-bezier(0.4,0,0.2,1)",
-                    }}>
-                      {c.icon}
-                    </div>
-
-                    <div style={{
-                      display: "grid",
-                      gridTemplateColumns: isHov ? "1fr" : "0fr",
-                      opacity: isHov ? 1 : 0,
-                      marginLeft: isHov ? "8px" : "0",
-                      transition: "grid-template-columns .45s cubic-bezier(0.4,0,0.2,1), opacity .3s, margin-left .45s cubic-bezier(0.4,0,0.2,1)",
-                      alignItems: "center",
-                      height: "26px",
-                    }}>
-                      <div style={{ overflow: "hidden", display: "flex", alignItems: "center", height: "100%" }}>
-                        <span style={{
-                          fontSize: "11px", fontWeight: 400, whiteSpace: "nowrap",
-                          color: "rgba(255,255,255,.6)", lineHeight: 1,
-                        }}>
-                          {c.value}
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                )
-              })}
-            </div>
+          {/* CTA */}
+          <div style={{ display: "flex", gap: "12px", marginBottom: "2.5vh", animation: "neon-fade-up .65s .38s ease both" }}>
+            <LiquidButton
+              size="lg"
+              onClick={() => {
+                document.getElementById("resume")?.scrollIntoView({ behavior: "smooth" })
+              }}
+              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
+            >
+              RESUME
+            </LiquidButton>
+            <LiquidButton
+              size="lg"
+              onClick={() => {
+                document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+              }}
+              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
+            >
+              PROJECTS
+            </LiquidButton>
           </div>
         </div>
 
-        {/* Scroll hint — fades out in Act 0 */}
-        <div id="scroll-hint" style={{
-          position: "absolute", bottom: "28px", left: "50%",
-          transform: "translateX(-50%)",
-          color: "rgba(255,255,255,0.2)", fontSize: "10px",
-          letterSpacing: "3px", display: "flex", flexDirection: "column",
-          alignItems: "center", gap: "6px", pointerEvents: "none",
+        {/* Right column */}
+        <div style={{
+          display: "flex", flexDirection: "column", alignItems: "center",
+          gap: "1.2vw", overflow: "visible", marginTop: "-2vh",
+          animation: "neon-fade-up .8s .1s ease both",
         }}>
-          <span>SCROLL</span>
-          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+          <Perspective
+            maxRotateX={18}
+            maxRotateY={22}
+            smoothing={0.08}
+            cardClassName="will-change-transform"
+          >
+            <div style={{
+              width: "240px", height: "240px", borderRadius: "50%",
+              overflow: "hidden", flexShrink: 0,
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}>
+              <Image src="/images/profile.jpg" alt="黃偉閎" width={240} height={240}
+                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.91) brightness(1.14)" }} priority />
+            </div>
+          </Perspective>
+
+          {/* Contact pills */}
+          <div style={{
+            display: "flex", gap: "6px", alignItems: "center",
+            marginTop: "2vh",
+          }}>
+            {CONTACTS.map((c, i) => {
+              const isHov = hoveredContact === i
+              return (
+                <a
+                  key={c.short}
+                  href={c.href}
+                  target={c.external ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  onMouseEnter={() => setHoveredContact(i)}
+                  onMouseLeave={() => setHoveredContact(null)}
+                  style={{
+                    display: "flex", alignItems: "center", textDecoration: "none",
+                    borderRadius: "9999px", cursor: "pointer",
+                    padding: isHov ? "4px 11px 4px 4px" : "4px",
+                    background: isHov ? "rgba(255,255,255,.07)" : "transparent",
+                    border: "1px solid",
+                    borderColor: isHov ? "rgba(255,255,255,.12)" : "transparent",
+                    transition: "all .45s cubic-bezier(0.4,0,0.2,1)",
+                  }}
+                >
+                  <div style={{
+                    width: "26px", height: "26px", borderRadius: "50%", flexShrink: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    background: isHov ? "rgba(255,255,255,.15)" : "rgba(255,255,255,.07)",
+                    color: isHov ? "#ffffff" : "rgba(255,255,255,.4)",
+                    transition: "all .4s cubic-bezier(0.4,0,0.2,1)",
+                  }}>
+                    {c.icon}
+                  </div>
+
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: isHov ? "1fr" : "0fr",
+                    opacity: isHov ? 1 : 0,
+                    marginLeft: isHov ? "8px" : "0",
+                    transition: "grid-template-columns .45s cubic-bezier(0.4,0,0.2,1), opacity .3s, margin-left .45s cubic-bezier(0.4,0,0.2,1)",
+                    alignItems: "center",
+                    height: "26px",
+                  }}>
+                    <div style={{ overflow: "hidden", display: "flex", alignItems: "center", height: "100%" }}>
+                      <span style={{
+                        fontSize: "11px", fontWeight: 400, whiteSpace: "nowrap",
+                        color: "rgba(255,255,255,.6)", lineHeight: 1,
+                      }}>
+                        {c.value}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>

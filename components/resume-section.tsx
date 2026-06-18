@@ -1,6 +1,9 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import type { CSSProperties } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Github, Mail, Download } from "lucide-react"
 import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
@@ -46,14 +49,36 @@ const accentText: CSSProperties = {
 }
 
 export function ResumeSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+    const blocks = sectionRef.current?.querySelectorAll(".scroll-block") ?? []
+    blocks.forEach((block) => {
+      gsap.fromTo(
+        block,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1, y: 0, duration: 0.5, ease: "power2.out",
+          scrollTrigger: {
+            trigger: block,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    })
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+  }, [])
+
   return (
-    <section style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
       <PortfolioBackground variant="mesh" />
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* Page title */}
-        <div style={{ textAlign: "center", marginBottom: "56px" }}>
+        <div className="scroll-block" style={{ textAlign: "center", marginBottom: "56px" }}>
           <h1 style={{ fontSize: "clamp(42px, 6vw, 64px)", fontWeight: 900, color: "#fff", margin: "0 0 12px", lineHeight: 1 }}>
             Resume
           </h1>
@@ -66,7 +91,7 @@ export function ResumeSection() {
         </div>
 
         {/* School + Stats + Tags */}
-        <div style={{ marginBottom: "0" }}>
+        <div className="scroll-block" style={{ marginBottom: "0" }}>
           <h2 style={{ color: "#fff", fontSize: "clamp(20px, 4vw, 28px)", fontWeight: 800, margin: "0 0 6px" }}>
             國立中央大學資訊管理學系
           </h2>
@@ -108,7 +133,7 @@ export function ResumeSection() {
         <hr style={divider} />
 
         {/* Contact */}
-        <div style={{ marginBottom: "0" }}>
+        <div className="scroll-block" style={{ marginBottom: "0" }}>
           <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Contact</h2>
           <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "14px" }}>
             <li>
@@ -144,7 +169,7 @@ export function ResumeSection() {
         <hr style={divider} />
 
         {/* Technical Skills */}
-        <div style={{ marginBottom: "0" }}>
+        <div className="scroll-block" style={{ marginBottom: "0" }}>
           <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Technical Skills</h2>
           <div style={glassCard}>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -165,7 +190,7 @@ export function ResumeSection() {
         <hr style={divider} />
 
         {/* Activities */}
-        <div style={{ marginBottom: "0" }}>
+        <div className="scroll-block" style={{ marginBottom: "0" }}>
           <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Activities / Leadership</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             {activities.map((a) => (
@@ -196,7 +221,7 @@ export function ResumeSection() {
         <hr style={divider} />
 
         {/* Coursework */}
-        <div>
+        <div className="scroll-block">
           <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Relevant Coursework</h2>
           <div style={{ display: "flex", flexDirection: "column" }}>
             {coursework.map((c, i) => (

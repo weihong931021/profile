@@ -1,19 +1,21 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react"
 
 const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/resume", label: "Resume" },
+  { id: "home",     label: "Home" },
+  { id: "projects", label: "Projects" },
+  { id: "resume",   label: "Resume" },
 ]
 
-function SlideLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+function SlideLink({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
-    <Link
-      href={href}
-      style={{ textDecoration: "none", display: "inline-block", height: "18px", overflow: "hidden" }}
+    <button
+      onClick={onClick}
+      style={{
+        background: "none", border: "none", padding: 0, cursor: "pointer",
+        textDecoration: "none", display: "inline-block", height: "18px", overflow: "hidden",
+      }}
       className="group"
     >
       <span
@@ -47,12 +49,36 @@ function SlideLink({ href, label, active }: { href: string; label: string; activ
           {label}
         </span>
       </span>
-    </Link>
+    </button>
   )
 }
 
 export function Navbar() {
-  const pathname = usePathname()
+  const [activeSection, setActiveSection] = useState("home")
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offsets = navItems.map(({ id }) => {
+        const el = document.getElementById(id)
+        return { id, top: el ? el.getBoundingClientRect().top : Infinity }
+      })
+      // The section whose top is closest to (but still above) 40% of viewport height
+      const threshold = window.innerHeight * 0.4
+      let active = "home"
+      for (const { id, top } of offsets) {
+        if (top <= threshold) active = id
+      }
+      setActiveSection(active)
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <header style={{
@@ -79,28 +105,30 @@ export function Navbar() {
         "0 8px 40px rgba(0,0,0,0.5)",
         "0 2px 10px rgba(0,0,0,0.35)",
       ].join(", "),
-      transition: "border-radius 0s",
     }}>
-
-      {/* Main row */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "46px" }}>
-
-        {/* Brand — left */}
-        <Link href="/" style={{ textDecoration: "none" }}>
+        {/* Brand */}
+        <button
+          onClick={() => scrollTo("home")}
+          style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+        >
           <span style={{
             fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px",
-            color: "rgba(255,255,255,0.5)",
-            whiteSpace: "nowrap",
-            lineHeight: "46px",
+            color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap", lineHeight: "46px",
           }}>
             WEIHONG&apos;S WEBSITE
           </span>
-        </Link>
+        </button>
 
-        {/* Nav links — right */}
+        {/* Nav links */}
         <nav style={{ display: "flex", alignItems: "center", gap: "28px", marginLeft: "auto" }}>
           {navItems.map(item => (
-            <SlideLink key={item.href} href={item.href} label={item.label} active={pathname === item.href} />
+            <SlideLink
+              key={item.id}
+              label={item.label}
+              active={activeSection === item.id}
+              onClick={() => scrollTo(item.id)}
+            />
           ))}
         </nav>
       </div>

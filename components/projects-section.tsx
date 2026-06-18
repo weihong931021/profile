@@ -1,3 +1,8 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ProjectCard } from "@/components/project-card"
 import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
@@ -72,64 +77,81 @@ const inProgressProjects = [
 ]
 
 export function ProjectsSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+    const cards = sectionRef.current?.querySelectorAll(".scroll-card") ?? []
+    cards.forEach((card) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 32 },
+        {
+          opacity: 1, y: 0, duration: 0.55, ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    })
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+  }, [])
+
   return (
-    <section style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", background: "#000000", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
       <PortfolioBackground variant="mesh" />
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-        {/* Page header */}
-        <div style={{ textAlign: "center", marginBottom: "56px" }}>
-          <h1 style={{
-            fontSize: "clamp(42px, 6vw, 64px)",
-            fontWeight: 900,
-            color: "#fff",
-            margin: "0 0 16px",
-            lineHeight: 1,
-          }}>
-            Projects
-          </h1>
-          <p style={{
-            fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
-            color: "rgba(255,255,255,.4)",
-            margin: 0,
-          }}>
-            AI · WEB3 · FULLSTACK · COMPUTER VISION
-          </p>
-        </div>
-
-        {/* Completed projects */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {completedProjects.map((project) => (
-            <ProjectCard key={project.title} {...project} />
-          ))}
-        </div>
-
-        {/* In Progress */}
-        <div style={{ marginTop: "64px" }}>
-          <div style={{ marginBottom: "28px" }}>
+          {/* Page header */}
+          <div className="scroll-card" style={{ textAlign: "center", marginBottom: "56px" }}>
+            <h1 style={{
+              fontSize: "clamp(42px, 6vw, 64px)", fontWeight: 900,
+              color: "#fff", margin: "0 0 16px", lineHeight: 1,
+            }}>
+              Projects
+            </h1>
             <p style={{
-              fontSize: "10px", fontWeight: 600, letterSpacing: "4px",
-              color: "rgba(255,255,255,.18)", textTransform: "uppercase",
-              margin: "0 0 8px",
+              fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+              color: "rgba(255,255,255,.4)", margin: 0,
             }}>
-              Currently Working On
+              AI · WEB3 · FULLSTACK · COMPUTER VISION
             </p>
-            <h2 style={{
-              fontSize: "clamp(22px, 3.5vw, 30px)",
-              fontWeight: 800,
-              color: "#fff",
-              margin: 0,
-            }}>
-              In Progress
-            </h2>
           </div>
+
+          {/* Completed projects */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {inProgressProjects.map((project) => (
-              <ProjectCard key={project.title} {...project} />
+            {completedProjects.map((project) => (
+              <div key={project.title} className="scroll-card">
+                <ProjectCard {...project} />
+              </div>
             ))}
           </div>
-        </div>
+
+          {/* In Progress */}
+          <div style={{ marginTop: "64px" }}>
+            <div className="scroll-card" style={{ marginBottom: "28px" }}>
+              <p style={{
+                fontSize: "10px", fontWeight: 600, letterSpacing: "4px",
+                color: "rgba(255,255,255,.18)", textTransform: "uppercase",
+                margin: "0 0 8px",
+              }}>
+                Currently Working On
+              </p>
+              <h2 style={{ fontSize: "clamp(22px, 3.5vw, 30px)", fontWeight: 800, color: "#fff", margin: 0 }}>
+                In Progress
+              </h2>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {inProgressProjects.map((project) => (
+                <div key={project.title} className="scroll-card">
+                  <ProjectCard {...project} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
