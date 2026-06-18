@@ -27,9 +27,9 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const t = lightMode
     ? {
-        cardBg:          "rgba(255,255,255,0.82)",
-        cardBorder:      "rgba(0,0,0,0.07)",
-        cardBorderHover: "rgba(0,0,0,0.15)",
+        cardBg:          "#ffffff",
+        cardBorder:      "rgba(0,0,0,0.06)",
+        cardBorderHover: "rgba(0,0,0,0.14)",
         titleColor:      "rgba(0,0,0,0.85)",
         subtitleColor:   "rgba(0,0,0,0.4)",
         pulseDot:        "rgba(0,0,0,0.45)",
@@ -92,17 +92,24 @@ export function ProjectCard({
         padding: "24px",
         backdropFilter: "blur(8px)",
         WebkitBackdropFilter: "blur(8px)",
+        boxShadow: lightMode
+          ? "0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)"
+          : "none",
         transition: "border-color 0.25s, transform 0.25s, box-shadow 0.25s",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = t.cardBorderHover
-        e.currentTarget.style.transform = "translateY(-2px)"
-        e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.15)"
+        e.currentTarget.style.transform = "translateY(-3px)"
+        e.currentTarget.style.boxShadow = lightMode
+          ? "0 8px 28px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)"
+          : "0 8px 32px rgba(0,0,0,0.3)"
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = t.cardBorder
         e.currentTarget.style.transform = "translateY(0)"
-        e.currentTarget.style.boxShadow = "none"
+        e.currentTarget.style.boxShadow = lightMode
+          ? "0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04)"
+          : "none"
       }}
     >
       {/* Header */}

@@ -61,7 +61,7 @@ export default function HomePage() {
         id="projects-bg"
         style={{
           position: "fixed", inset: 0, zIndex: 1,
-          background: "rgba(228,228,228,0.58)",
+          background: "rgba(245,245,245,0.88)",
           opacity: 0,
           pointerEvents: "none",
         }}

@@ -86,14 +86,15 @@ export function ProjectsSection() {
     cards.forEach((card, i) => {
       const anim = gsap.fromTo(
         card,
-        { opacity: 0, y: 44, scale: 0.97 },
+        { opacity: 0, y: 56, filter: "blur(6px)", scale: 0.97 },
         {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.65, ease: "power3.out",
-          delay: i === 0 ? 0 : 0,
+          opacity: 1, y: 0, filter: "blur(0px)", scale: 1,
+          duration: 0.72, ease: "power3.out",
+          delay: i * 0.08,
+          clearProps: "filter",
           scrollTrigger: {
             trigger: card,
-            start: "top 88%",
+            start: "top 90%",
             toggleActions: "play none none none",
           },
         }
