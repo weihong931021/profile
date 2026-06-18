@@ -20,9 +20,9 @@ const pillStyle: React.CSSProperties = {
   transition: "color .2s, border-color .2s, background .2s",
 }
 const pillIn  = (e: React.MouseEvent<HTMLAnchorElement>) => {
-  e.currentTarget.style.color = "#ffa032"
-  e.currentTarget.style.borderColor = "rgba(255,160,50,.3)"
-  e.currentTarget.style.background = "rgba(255,160,50,.06)"
+  e.currentTarget.style.color = "rgba(255,255,255,0.75)"
+  e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)"
+  e.currentTarget.style.background = "rgba(255,255,255,0.07)"
 }
 const pillOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
   e.currentTarget.style.color = "rgba(255,255,255,.38)"

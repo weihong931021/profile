@@ -58,12 +58,15 @@ public/
 
 ## Design System
 
-- **主題**：全站深色（`#000000` 背景），無淺色模式切換
-- **主色**：`--primary: #ffa032`（橘色）
-- **輔色**：`--accent: #b450ff`（紫色）
-- **其他 accent 一律用 `#ffa032`**，禁止混用 `#fbbf24`（黃色）
+- **主題**：全站黑白單色（`#000000` 背景），無淺色模式切換
+- **主色**：`--primary: #ffffff`（白色）— 所有 highlight、hover、accent 一律用白色系
+- **輔色**：`--accent: rgba(255,255,255,0.55)`（半透明白）
+- **禁止使用任何有色 accent**：橘色 `#ffa032`、紫色 `#b450ff`、黃色 `#fbbf24` 全部禁用
+- **Hover 統一規則**：文字 hover → `rgba(255,255,255,0.85)`，border hover → `rgba(255,255,255,0.22)`，背景 hover → `rgba(255,255,255,0.07)`
+- **Glow 效果**：`box-shadow: 0 0 18–24px rgba(255,255,255,0.18–0.3)`（白色，低透明度）
 - **Navbar**：浮動 pill，`position: fixed, top: 20px, width: 90vw`，與下方內容左右邊緣對齊
-- **Layout spacing**：各頁 section 頂部留 `110px` padding（navbar 高 46px + top 20px + buffer）；首頁 about-hero 用 `paddingTop: 86px`
+- **Layout spacing**：各頁 section 頂部留 `110px` padding（navbar 高 46px + top 20px + buffer）；首頁 about-hero sticky 容器內用 `paddingTop: 86px`
+- **首頁 scroll**：`about-hero` 為 `height: 250vh`，inner container `position: sticky; top: 0; height: 100vh`，GSAP ScrollTrigger 驅動 3 幕動畫
 
 ## Key Patterns
 

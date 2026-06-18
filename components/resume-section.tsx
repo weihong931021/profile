@@ -42,7 +42,7 @@ const divider: CSSProperties = {
 }
 
 const accentText: CSSProperties = {
-  color: "#ffa032",
+  color: "#ffffff",
 }
 
 export function ResumeSection() {
@@ -114,7 +114,7 @@ export function ResumeSection() {
             <li>
               <a href="https://github.com/weihong931021" target="_blank" rel="noreferrer"
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Github size={18} /> weihong931021
@@ -123,7 +123,7 @@ export function ResumeSection() {
             <li>
               <a href="mailto:weihong609193@gmail.com"
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Mail size={18} /> weihong609193@gmail.com
@@ -132,7 +132,7 @@ export function ResumeSection() {
             <li>
               <a href="/resume.pdf" download
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#ffa032" }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Download size={18} /> Resume PDF Download
