@@ -113,7 +113,7 @@ export function ProjectsSection() {
           <div className="scroll-card" style={{ textAlign: "center", marginBottom: "56px" }}>
             <h1 style={{
               fontSize: "clamp(42px, 6vw, 64px)", fontWeight: 900,
-              color: "rgba(0,0,0,0.85)", margin: "0 0 16px", lineHeight: 1,
+              color: "rgba(0,0,0,0.82)", margin: "0 0 16px", lineHeight: 1,
             }}>
               Projects
             </h1>
