@@ -16,36 +16,34 @@ export default function HomePage() {
     const projectsEl = document.getElementById("projects")
     const resumeEl   = document.getElementById("resume")
 
-    // Fade IN the light mesh as Projects section enters
+    // Cross-fade: dark → light when entering Projects
     if (projectsEl) {
-      const a = gsap.fromTo("#projects-local-bg",
+      const a = gsap.fromTo("#global-light-bg",
         { opacity: 0 },
         {
-          opacity: 1,
-          ease: "none",
+          opacity: 1, ease: "none",
           scrollTrigger: {
             trigger: projectsEl,
-            start: "top 85%",
-            end: "top 15%",
-            scrub: 1.2,
+            start: "top 100%",   // starts as soon as Projects section enters bottom of viewport
+            end: "top 0%",       // finishes when Projects section top hits top of viewport
+            scrub: 1,
           },
         }
       )
       if (a.scrollTrigger) triggers.push(a.scrollTrigger)
     }
 
-    // Fade OUT the light mesh as Resume section enters
+    // Cross-fade: light → dark when entering Resume
     if (resumeEl) {
-      const b = gsap.fromTo("#projects-local-bg",
+      const b = gsap.fromTo("#global-light-bg",
         { opacity: 1 },
         {
-          opacity: 0,
-          ease: "none",
+          opacity: 0, ease: "none",
           scrollTrigger: {
             trigger: resumeEl,
-            start: "top 85%",
-            end: "top 15%",
-            scrub: 1.2,
+            start: "top 100%",
+            end: "top 0%",
+            scrub: 1,
           },
         }
       )
@@ -57,11 +55,17 @@ export default function HomePage() {
 
   return (
     <main>
-      {/* Global dark mesh — fixed, always behind everything */}
+      {/* Layer 0: dark mesh — fixed, always behind */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
         <PortfolioBackground />
       </div>
 
+      {/* Layer 1: light mesh — fixed, fades in/out with scroll */}
+      <div id="global-light-bg" style={{ position: "fixed", inset: 0, zIndex: 1, opacity: 0 }}>
+        <PortfolioBackground light />
+      </div>
+
+      {/* Layer 2: scrollable content */}
       <div style={{ position: "relative", zIndex: 2 }}>
         <div id="home"><AboutHero /></div>
         <div id="projects"><ProjectsSection /></div>
