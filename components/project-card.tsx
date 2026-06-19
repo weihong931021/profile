@@ -27,9 +27,9 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const t = lightMode
     ? {
-        cardBg:          "rgba(255,255,255,0.52)",
-        cardBorder:      "rgba(255,255,255,0.7)",
-        cardBorderHover: "rgba(255,255,255,0.9)",
+        cardBg:          "rgba(255,255,255,0.78)",
+        cardBorder:      "rgba(255,255,255,0.55)",
+        cardBorderHover: "rgba(255,255,255,0.85)",
         titleColor:      "rgba(0,0,0,0.85)",
         subtitleColor:   "rgba(0,0,0,0.4)",
         pulseDot:        "rgba(0,0,0,0.45)",

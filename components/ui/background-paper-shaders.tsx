@@ -48,14 +48,23 @@ export const fragmentShader = `
  *  1. MeshGradient — wide dark range for visible undulating depth
  *  2. NeuroNoise   — organic neural-flow texture on top at low opacity
  */
-export function PortfolioBackground() {
+const DARK_COLORS  = ["#000000", "#1a1a1a", "#3a3a3a", "#555555"]
+const LIGHT_COLORS = ["#ffffff", "#ececec", "#aaaaaa", "#555555"]
+
+interface PortfolioBackgroundProps {
+  variant?: "mesh"
+  light?: boolean
+  colors?: string[]
+}
+
+export function PortfolioBackground({ light, colors }: PortfolioBackgroundProps = {}) {
+  const palette = colors ?? (light ? LIGHT_COLORS : DARK_COLORS)
   return (
     <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-      {/* B&W MeshGradient — matches the demo exactly */}
       <MeshGradient
         className="w-full h-full"
         // @ts-expect-error – library accepts string[]
-        colors={["#000000", "#1a1a1a", "#3a3a3a", "#555555"]}
+        colors={palette}
         speed={0.4}
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       />

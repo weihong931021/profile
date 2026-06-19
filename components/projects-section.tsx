@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ProjectCard } from "@/components/project-card"
+import { PortfolioBackground } from "@/components/ui/background-paper-shaders"
 
 const completedProjects = [
   {
@@ -106,8 +107,11 @@ export function ProjectsSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
-      <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+    <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
+      {/* Light mesh gradient — white/grey tones, clearly inverted from the dark home/resume sections */}
+      <PortfolioBackground light />
+
+      <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
 
           {/* Page header */}
