@@ -133,7 +133,7 @@ export function ProjectCard({
       }}
     >
       {/* Header */}
-      <div style={{
+      <div className="card-header" style={{
         display: "flex", justifyContent: "space-between",
         alignItems: "flex-start", gap: "12px", marginBottom: "12px",
       }}>
@@ -170,7 +170,7 @@ export function ProjectCard({
       {/* Tech badges */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "16px" }}>
         {tech.map((item) => (
-          <span key={item} style={{
+          <span key={item} className="card-badge" style={{
             background: t.techBg, color: t.techText, border: `1px solid ${t.techBorder}`,
             fontSize: "11px", padding: "3px 9px", borderRadius: "5px",
           }}>
@@ -182,7 +182,7 @@ export function ProjectCard({
       {/* Description */}
       <ul style={{ margin: "0 0 20px", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
         {description.map((item, i) => (
-          <li key={i} style={{
+          <li key={i} className="card-desc-item" style={{
             display: "flex", alignItems: "flex-start", gap: "8px",
             color: t.descText, fontSize: "13px", lineHeight: 1.65,
           }}>
@@ -194,7 +194,7 @@ export function ProjectCard({
 
       {/* Links */}
       {(projectUrl || githubUrl || gitlabUrl) && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+        <div className="card-links" style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
           {projectUrl && (
             <a
               href={projectUrl} target="_blank" rel="noopener noreferrer"

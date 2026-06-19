@@ -85,21 +85,67 @@ export function ProjectsSection() {
     const cards = sectionRef.current?.querySelectorAll(".scroll-card") ?? []
 
     cards.forEach((card, i) => {
-      const anim = gsap.fromTo(
-        card,
-        { opacity: 0, y: 70, scale: 0.94 },
-        {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.9, ease: "expo.out",
-          delay: i * 0.10,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 92%",
-            toggleActions: "play none none none",
-          },
-        }
+      const header    = card.querySelector(".card-header")
+      const badges    = card.querySelectorAll(".card-badge")
+      const descItems = card.querySelectorAll(".card-desc-item")
+      const links     = card.querySelector(".card-links")
+
+      // Set perspective origin once so 3D tilt feels natural
+      gsap.set(card, { transformPerspective: 900, transformOrigin: "50% 0%" })
+
+      const tl = gsap.timeline({
+        delay: i * 0.08,
+        paused: true,
+      })
+
+      // 1. Card lifts in with 3D tilt — feels like a physical card rising off the surface
+      tl.fromTo(card,
+        { opacity: 0, y: 60, rotateX: 10 },
+        { opacity: 1, y: 0,  rotateX: 0, duration: 0.85, ease: "expo.out" }
       )
-      if (anim.scrollTrigger) triggers.push(anim.scrollTrigger)
+
+      // 2. Header assembles while card is still landing
+      if (header) {
+        tl.fromTo(header,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" },
+          "-=0.58"
+        )
+      }
+
+      // 3. Tech badges cascade left → right, each popping in with a slight scale
+      if (badges.length) {
+        tl.fromTo(badges,
+          { opacity: 0, x: -12, scale: 0.82 },
+          { opacity: 1, x: 0,   scale: 1, duration: 0.28, ease: "back.out(1.4)", stagger: 0.045 },
+          "-=0.32"
+        )
+      }
+
+      // 4. Description lines slide in, staggered — feels like data being streamed in
+      if (descItems.length) {
+        tl.fromTo(descItems,
+          { opacity: 0, x: -10 },
+          { opacity: 1, x: 0, duration: 0.26, ease: "power2.out", stagger: 0.038 },
+          "-=0.22"
+        )
+      }
+
+      // 5. Links appear last — like the card is fully loaded
+      if (links) {
+        tl.fromTo(links,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+          "-=0.14"
+        )
+      }
+
+      const st = ScrollTrigger.create({
+        trigger: card,
+        start: "top 92%",
+        onEnter: () => tl.play(),
+      })
+      triggers.push(st)
     })
 
     return () => triggers.forEach((t) => t.kill())
