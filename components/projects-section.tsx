@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ProjectCard } from "@/components/project-card"
+import { GlassFilterProvider } from "@/components/ui/liquid-glass-button"
 
 const completedProjects = [
   {
@@ -86,15 +87,14 @@ export function ProjectsSection() {
     cards.forEach((card, i) => {
       const anim = gsap.fromTo(
         card,
-        { opacity: 0, y: 56, filter: "blur(6px)", scale: 0.97 },
+        { opacity: 0, y: 70, scale: 0.94 },
         {
-          opacity: 1, y: 0, filter: "blur(0px)", scale: 1,
-          duration: 0.72, ease: "power3.out",
-          delay: i * 0.08,
-          clearProps: "filter",
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.9, ease: "expo.out",
+          delay: i * 0.10,
           scrollTrigger: {
             trigger: card,
-            start: "top 90%",
+            start: "top 92%",
             toggleActions: "play none none none",
           },
         }
@@ -107,6 +107,7 @@ export function ProjectsSection() {
 
   return (
     <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
+      <GlassFilterProvider />
       <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
 

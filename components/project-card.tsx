@@ -27,32 +27,33 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const t = lightMode
     ? {
-        cardBg:          "rgba(255,255,255,0.78)",
-        cardBorder:      "rgba(255,255,255,0.55)",
-        cardBorderHover: "rgba(255,255,255,0.85)",
-        titleColor:      "rgba(0,0,0,0.85)",
-        subtitleColor:   "rgba(0,0,0,0.4)",
+        // Liquid glass — transparent, backdrop blur shows moving gradient behind
+        cardBg:          "linear-gradient(145deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.12) 100%)",
+        cardBorder:      "rgba(255,255,255,0.50)",
+        cardBorderHover: "rgba(255,255,255,0.80)",
+        titleColor:      "rgba(0,0,0,0.82)",
+        subtitleColor:   "rgba(0,0,0,0.42)",
         pulseDot:        "rgba(0,0,0,0.45)",
         wipText:         "rgba(0,0,0,0.5)",
-        badgeBg:         "rgba(0,0,0,0.05)",
-        badgeText:       "rgba(0,0,0,0.38)",
-        badgeBorder:     "rgba(0,0,0,0.1)",
-        techBg:          "rgba(0,0,0,0.05)",
-        techText:        "rgba(0,0,0,0.5)",
-        techBorder:      "rgba(0,0,0,0.1)",
-        descText:        "rgba(0,0,0,0.55)",
-        descBullet:      "rgba(0,0,0,0.22)",
-        linkPrimBg:      "rgba(0,0,0,0.07)",
-        linkPrimText:    "rgba(0,0,0,0.7)",
-        linkPrimBorder:  "rgba(0,0,0,0.15)",
-        linkPrimHoverText:   "rgba(0,0,0,0.9)",
-        linkPrimHoverBorder: "rgba(0,0,0,0.28)",
-        linkPrimHoverBg:     "rgba(0,0,0,0.1)",
-        linkSecBg:       "rgba(0,0,0,0.04)",
-        linkSecText:     "rgba(0,0,0,0.45)",
-        linkSecBorder:   "rgba(0,0,0,0.1)",
+        badgeBg:         "rgba(255,255,255,0.30)",
+        badgeText:       "rgba(0,0,0,0.45)",
+        badgeBorder:     "rgba(255,255,255,0.50)",
+        techBg:          "rgba(255,255,255,0.28)",
+        techText:        "rgba(0,0,0,0.52)",
+        techBorder:      "rgba(255,255,255,0.45)",
+        descText:        "rgba(0,0,0,0.58)",
+        descBullet:      "rgba(0,0,0,0.25)",
+        linkPrimBg:      "rgba(255,255,255,0.30)",
+        linkPrimText:    "rgba(0,0,0,0.68)",
+        linkPrimBorder:  "rgba(255,255,255,0.55)",
+        linkPrimHoverText:   "rgba(0,0,0,0.88)",
+        linkPrimHoverBorder: "rgba(255,255,255,0.80)",
+        linkPrimHoverBg:     "rgba(255,255,255,0.45)",
+        linkSecBg:       "rgba(255,255,255,0.18)",
+        linkSecText:     "rgba(0,0,0,0.48)",
+        linkSecBorder:   "rgba(255,255,255,0.40)",
         linkSecHoverText:   "rgba(0,0,0,0.75)",
-        linkSecHoverBorder: "rgba(0,0,0,0.2)",
+        linkSecHoverBorder: "rgba(255,255,255,0.65)",
       }
     : {
         cardBg:          "rgba(255,255,255,0.03)",
@@ -88,27 +89,46 @@ export function ProjectCard({
       style={{
         background: t.cardBg,
         border: `1px solid ${t.cardBorder}`,
-        borderRadius: "12px",
+        borderRadius: lightMode ? "18px" : "12px",
         padding: "24px",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
+        backdropFilter: lightMode ? "blur(22px) saturate(180%)" : "blur(8px)",
+        WebkitBackdropFilter: lightMode ? "blur(22px) saturate(180%)" : "blur(8px)",
         boxShadow: lightMode
-          ? "0 2px 16px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
+          ? [
+              "0 4px 24px rgba(0,0,0,0.08)",
+              "0 1px 4px rgba(0,0,0,0.05)",
+              "inset 0 1px 0 rgba(255,255,255,0.72)",
+              "inset 0 -1px 0 rgba(0,0,0,0.04)",
+              "inset 1px 0 0 rgba(255,255,255,0.30)",
+              "inset -1px 0 0 rgba(255,255,255,0.30)",
+            ].join(", ")
           : "none",
-        transition: "border-color 0.25s, transform 0.25s, box-shadow 0.25s",
+        transition: "border-color 0.3s, transform 0.3s, box-shadow 0.3s, background 0.3s",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = t.cardBorderHover
-        e.currentTarget.style.transform = "translateY(-3px)"
+        e.currentTarget.style.transform = "translateY(-4px) scale(1.005)"
         e.currentTarget.style.boxShadow = lightMode
-          ? "0 8px 32px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.7)"
+          ? [
+              "0 12px 40px rgba(0,0,0,0.12)",
+              "0 4px 12px rgba(0,0,0,0.06)",
+              "inset 0 1px 0 rgba(255,255,255,0.85)",
+              "inset 0 -1px 0 rgba(0,0,0,0.04)",
+            ].join(", ")
           : "0 8px 32px rgba(0,0,0,0.3)"
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = t.cardBorder
-        e.currentTarget.style.transform = "translateY(0)"
+        e.currentTarget.style.transform = "translateY(0) scale(1)"
         e.currentTarget.style.boxShadow = lightMode
-          ? "0 2px 16px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
+          ? [
+              "0 4px 24px rgba(0,0,0,0.08)",
+              "0 1px 4px rgba(0,0,0,0.05)",
+              "inset 0 1px 0 rgba(255,255,255,0.72)",
+              "inset 0 -1px 0 rgba(0,0,0,0.04)",
+              "inset 1px 0 0 rgba(255,255,255,0.30)",
+              "inset -1px 0 0 rgba(255,255,255,0.30)",
+            ].join(", ")
           : "none"
       }}
     >
