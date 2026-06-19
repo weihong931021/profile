@@ -108,8 +108,10 @@ export function ProjectsSection() {
 
   return (
     <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px", position: "relative", overflow: "hidden" }}>
-      {/* Light mesh gradient — white/grey tones, clearly inverted from the dark home/resume sections */}
-      <PortfolioBackground light />
+      {/* Light mesh — starts at opacity 0, GSAP in page.tsx fades it in as you scroll in */}
+      <div id="projects-local-bg" style={{ position: "absolute", inset: 0, zIndex: 0, opacity: 0 }}>
+        <PortfolioBackground light />
+      </div>
 
       <div style={{ position: "relative", zIndex: 10, maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
