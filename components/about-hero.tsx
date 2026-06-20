@@ -1,8 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { LiquidButton, GlassFilterProvider } from "@/components/ui/liquid-glass-button"
 import { TextScramble } from "@/components/ui/text-scramble"
 import { Perspective } from "@/components/ui/perspective-highlight"
@@ -82,9 +84,33 @@ const CONTACTS = [
 export function AboutHero() {
   const router = useRouter()
   const [hoveredContact, setHoveredContact] = useState<number | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+    const section = sectionRef.current
+    if (!section) return
+
+    const left  = section.querySelector(".about-left-col")
+    const right = section.querySelector(".about-right-col")
+
+    // Scroll exit: text drifts up (parallax), avatar recedes in scale — no horizontal movement
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom top",
+        scrub: 0.5,
+      },
+    })
+    tl.to(left,  { y: -48, opacity: 0, ease: "none" }, 0)
+      .to(right, { scale: 0.82, opacity: 0, ease: "none" }, 0)
+
+    return () => { if (tl.scrollTrigger) tl.scrollTrigger.kill() }
+  }, [])
 
   return (
-    <section style={{
+    <section ref={sectionRef} style={{
       minHeight: "100vh",
       paddingTop: "86px",
       display: "flex", alignItems: "center", justifyContent: "center",
@@ -101,7 +127,7 @@ export function AboutHero() {
       }}>
 
         {/* Left column */}
-        <div>
+        <div className="about-left-col">
           <div style={{ marginBottom: "2vh", animation: "neon-fade-up .6s ease both" }}>
             <TextScramble
               text="HUANG WEI-HONG"
@@ -183,7 +209,7 @@ export function AboutHero() {
         </div>
 
         {/* Right column */}
-        <div style={{
+        <div className="about-right-col" style={{
           display: "flex", flexDirection: "column", alignItems: "center",
           gap: "1.2vw", overflow: "visible", marginTop: "-2vh",
           animation: "neon-fade-up .8s .1s ease both",

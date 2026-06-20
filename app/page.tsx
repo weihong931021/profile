@@ -18,35 +18,29 @@ export default function HomePage() {
 
     // Cross-fade: dark → light when entering Projects
     if (projectsEl) {
-      const a = gsap.fromTo("#global-light-bg",
-        { opacity: 0 },
-        {
-          opacity: 1, ease: "none",
-          scrollTrigger: {
-            trigger: projectsEl,
-            start: "top 100%",   // starts as soon as Projects section enters bottom of viewport
-            end: "top 0%",       // finishes when Projects section top hits top of viewport
-            scrub: 1,
-          },
-        }
-      )
+      const a = gsap.to("#global-light-bg", {
+        opacity: 1, ease: "none",
+        scrollTrigger: {
+          trigger: projectsEl,
+          start: "top 100%",
+          end: "top 0%",
+          scrub: 0.3,
+        },
+      })
       if (a.scrollTrigger) triggers.push(a.scrollTrigger)
     }
 
     // Cross-fade: light → dark when entering Resume
     if (resumeEl) {
-      const b = gsap.fromTo("#global-light-bg",
-        { opacity: 1 },
-        {
-          opacity: 0, ease: "none",
-          scrollTrigger: {
-            trigger: resumeEl,
-            start: "top 100%",
-            end: "top 0%",
-            scrub: 1,
-          },
-        }
-      )
+      const b = gsap.to("#global-light-bg", {
+        opacity: 0, ease: "none",
+        scrollTrigger: {
+          trigger: resumeEl,
+          start: "top 100%",
+          end: "top 0%",
+          scrub: 0.3,
+        },
+      })
       if (b.scrollTrigger) triggers.push(b.scrollTrigger)
     }
 

@@ -66,7 +66,7 @@ public/
 - **Glow 效果**：`box-shadow: 0 0 18–24px rgba(255,255,255,0.18–0.3)`（白色，低透明度）
 - **Navbar**：浮動 pill，`position: fixed, top: 20px, width: 90vw`，與下方內容左右邊緣對齊
 - **Layout spacing**：各頁 section 頂部留 `110px` padding（navbar 高 46px + top 20px + buffer）；首頁 about-hero sticky 容器內用 `paddingTop: 86px`
-- **首頁 scroll**：`about-hero` 為 `height: 250vh`，inner container `position: sticky; top: 0; height: 100vh`，GSAP ScrollTrigger 驅動 3 幕動畫
+- **首頁 scroll**：`about-hero` 為 `minHeight: 100vh`，GSAP ScrollTrigger scrub 驅動離場動畫（左欄 y:-48 + opacity:0，右欄 scale:0.82 + opacity:0）；背景由 `app/page.tsx` 的全域 `gsap.to()` 控制 dark↔light 切換
 
 ## Key Patterns
 
@@ -76,6 +76,59 @@ public/
 - **自製 UI 元件**（`liquid-glass-button`、`background-paper-shaders`、`text-scramble`、`perspective-highlight`）可直接修改
 - **GlassFilter**：使用多個 `LiquidButton` 的頁面請在 section 頂部放一個 `<GlassFilterProvider />`，避免重複渲染 SVG filter
 - **Container 寬度**：首頁用 `maxWidth: 90vw`；Projects/Resume 外層 `maxWidth: 90vw` + 內層 `maxWidth: 720px, margin: 0 auto`
+
+## GSAP Animation Patterns
+
+### 背景 Dark↔Light 切換 (`app/page.tsx`)
+兩層全域 fixed 背景（dark z-index:0，light z-index:1），用 `gsap.to()` 跟著 scroll scrub 切換。
+**重要**：務必用 `gsap.to()`，不能用 `gsap.fromTo()`。`fromTo` 的 FROM state 會在 init 時立即套用，導致頁面刷新時 light bg 直接 opacity:1（整頁變白）。
+
+```ts
+// ✅ 正確
+gsap.to("#global-light-bg", { opacity: 1, scrollTrigger: { scrub: 0.3, ... } })
+// ❌ 錯誤 — fromTo 的 { opacity: 1 } 會立即套用
+gsap.fromTo("#global-light-bg", { opacity: 1 }, { opacity: 0, ... })
+```
+
+### About Hero 離場動畫 (`components/about-hero.tsx`)
+scrub 驅動，no x-axis movement（水平滑走視覺很差）。左欄向上飄離，右欄縮小退場：
+
+```ts
+// trigger: section, start: "top top", end: "bottom top", scrub: 0.5
+tl.to(".about-left-col",  { y: -48, opacity: 0, ease: "none" }, 0)
+  .to(".about-right-col", { scale: 0.82, opacity: 0, ease: "none" }, 0)
+```
+
+scroll 回來時 scrub 自動 reverse，不需另外處理。
+
+### Project Cards 進場動畫 (`components/projects-section.tsx`)
+每張 card 獨立 GSAP timeline，5 段依序疊加，支援 scroll 進出雙向：
+
+```ts
+// 觸發類名：.scroll-card；內部元素：.card-header / .card-badge / .card-desc-item / .card-links
+ScrollTrigger.create({
+  trigger: card, start: "top 92%",
+  onEnter: () => tl.play(),
+  onLeaveBack: () => tl.reverse(),   // 往上滾也有動畫
+})
+
+// Timeline 順序：card 3D tilt-in → header → badges (back.out 彈入) → desc 逐行 → links
+tl.fromTo(card, { opacity:0, y:60, rotateX:10 }, { opacity:1, y:0, rotateX:0, duration:0.85 })
+  .fromTo(".card-header", { opacity:0, y:16 }, { opacity:1, y:0 }, "-=0.58")
+  .fromTo(".card-badge",  { opacity:0, x:-12, scale:0.82 }, { opacity:1, x:0, scale:1, stagger:0.045 }, "-=0.32")
+  .fromTo(".card-desc-item", { opacity:0, x:-10 }, { opacity:1, x:0, stagger:0.038 }, "-=0.22")
+  .fromTo(".card-links", { opacity:0, y:10 }, { opacity:1, y:0 }, "-=0.14")
+```
+
+### ScrollTrigger Cleanup 正確寫法
+**絕對不能** `ScrollTrigger.getAll().forEach(t => t.kill())` — 會殺掉所有其他元件的 trigger。
+每個元件自己存自己的 triggers，cleanup 只 kill 自己的：
+
+```ts
+const triggers: gsap.core.ScrollTrigger[] = []
+// ... 建立時 push 進去
+return () => triggers.forEach(t => t.kill())
+```
 
 ## Custom UI Components — 使用說明
 

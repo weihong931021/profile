@@ -143,7 +143,8 @@ export function ProjectsSection() {
       const st = ScrollTrigger.create({
         trigger: card,
         start: "top 92%",
-        onEnter: () => tl.play(),
+        onEnter:     () => tl.play(),
+        onLeaveBack: () => tl.reverse(),
       })
       triggers.push(st)
     })
