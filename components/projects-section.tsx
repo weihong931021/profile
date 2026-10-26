@@ -81,7 +81,7 @@ export function ProjectsSection() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
-    const triggers: gsap.core.ScrollTrigger[] = []
+    const triggers: ScrollTrigger[] = []
     const cards = sectionRef.current?.querySelectorAll(".scroll-card") ?? []
 
     cards.forEach((card, i) => {
@@ -155,7 +155,7 @@ export function ProjectsSection() {
   return (
     <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
       <GlassFilterProvider />
-      <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+      <div className="md:px-[4vw]" style={{ maxWidth: "90vw", margin: "0 auto", paddingTop: "110px" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
 
           {/* Page header */}
@@ -166,8 +166,8 @@ export function ProjectsSection() {
             }}>
               Projects
             </h1>
-            <p style={{
-              fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+            <p className="text-[11px] tracking-[2.5px] text-balance md:text-[12px] md:tracking-[3px] md:text-wrap" style={{
+              fontWeight: 500,
               color: "rgba(0,0,0,0.4)", margin: 0,
             }}>
               AI · WEB3 · FULLSTACK · COMPUTER VISION

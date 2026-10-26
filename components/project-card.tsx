@@ -86,11 +86,11 @@ export function ProjectCard({
 
   return (
     <div
+      className="p-5 md:p-6"
       style={{
         background: t.cardBg,
         border: `1px solid ${t.cardBorder}`,
         borderRadius: lightMode ? "18px" : "12px",
-        padding: "24px",
         backdropFilter: lightMode ? "blur(22px) saturate(180%)" : "blur(8px)",
         WebkitBackdropFilter: lightMode ? "blur(22px) saturate(180%)" : "blur(8px)",
         boxShadow: lightMode
@@ -105,7 +105,9 @@ export function ProjectCard({
           : "none",
         transition: "border-color 0.3s, transform 0.3s, box-shadow 0.3s, background 0.3s",
       }}
-      onMouseEnter={(e) => {
+      onPointerEnter={(e) => {
+        // Mouse only — touch fires pointerenter on every tap/scroll start, which would flash the lift
+        if (e.pointerType !== "mouse") return
         e.currentTarget.style.borderColor = t.cardBorderHover
         e.currentTarget.style.transform = "translateY(-4px) scale(1.005)"
         e.currentTarget.style.boxShadow = lightMode
@@ -117,7 +119,7 @@ export function ProjectCard({
             ].join(", ")
           : "0 8px 32px rgba(0,0,0,0.3)"
       }}
-      onMouseLeave={(e) => {
+      onPointerLeave={(e) => {
         e.currentTarget.style.borderColor = t.cardBorder
         e.currentTarget.style.transform = "translateY(0) scale(1)"
         e.currentTarget.style.boxShadow = lightMode
@@ -137,7 +139,7 @@ export function ProjectCard({
         display: "flex", justifyContent: "space-between",
         alignItems: "flex-start", gap: "12px", marginBottom: "12px",
       }}>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <h3 style={{ color: t.titleColor, fontSize: "16px", fontWeight: 700, margin: "0 0 4px" }}>
             {title}
           </h3>
@@ -198,19 +200,21 @@ export function ProjectCard({
           {projectUrl && (
             <a
               href={projectUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3.5 py-2.5 md:py-1.5"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 background: t.linkPrimBg, color: t.linkPrimText, fontSize: "12px", fontWeight: 500,
-                padding: "6px 14px", borderRadius: "6px",
+                borderRadius: "6px",
                 border: `1px solid ${t.linkPrimBorder}`,
                 textDecoration: "none", transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => {
+              onPointerEnter={(e) => {
+                if (e.pointerType !== "mouse") return
                 e.currentTarget.style.color = t.linkPrimHoverText
                 e.currentTarget.style.borderColor = t.linkPrimHoverBorder
                 e.currentTarget.style.background = t.linkPrimHoverBg
               }}
-              onMouseLeave={(e) => {
+              onPointerLeave={(e) => {
                 e.currentTarget.style.color = t.linkPrimText
                 e.currentTarget.style.borderColor = t.linkPrimBorder
                 e.currentTarget.style.background = t.linkPrimBg
@@ -223,18 +227,20 @@ export function ProjectCard({
           {githubUrl && (
             <a
               href={githubUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3.5 py-2.5 md:py-1.5"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 background: t.linkSecBg, color: t.linkSecText, fontSize: "12px", fontWeight: 500,
-                padding: "6px 14px", borderRadius: "6px",
+                borderRadius: "6px",
                 border: `1px solid ${t.linkSecBorder}`,
                 textDecoration: "none", transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => {
+              onPointerEnter={(e) => {
+                if (e.pointerType !== "mouse") return
                 e.currentTarget.style.color = t.linkSecHoverText
                 e.currentTarget.style.borderColor = t.linkSecHoverBorder
               }}
-              onMouseLeave={(e) => {
+              onPointerLeave={(e) => {
                 e.currentTarget.style.color = t.linkSecText
                 e.currentTarget.style.borderColor = t.linkSecBorder
               }}
@@ -246,18 +252,20 @@ export function ProjectCard({
           {gitlabUrl && (
             <a
               href={gitlabUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3.5 py-2.5 md:py-1.5"
               style={{
                 display: "inline-flex", alignItems: "center", gap: "6px",
                 background: t.linkSecBg, color: t.linkSecText, fontSize: "12px", fontWeight: 500,
-                padding: "6px 14px", borderRadius: "6px",
+                borderRadius: "6px",
                 border: `1px solid ${t.linkSecBorder}`,
                 textDecoration: "none", transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => {
+              onPointerEnter={(e) => {
+                if (e.pointerType !== "mouse") return
                 e.currentTarget.style.color = t.linkSecHoverText
                 e.currentTarget.style.borderColor = t.linkSecHoverBorder
               }}
-              onMouseLeave={(e) => {
+              onPointerLeave={(e) => {
                 e.currentTarget.style.color = t.linkSecText
                 e.currentTarget.style.borderColor = t.linkSecBorder
               }}

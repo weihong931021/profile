@@ -5,7 +5,7 @@
 ```bash
 pnpm dev      # 開發伺服器 (http://localhost:3000)
 pnpm build    # 建置
-pnpm lint     # ESLint 檢查
+pnpm lint     # ESLint 檢查（⚠️ eslint 目前未安裝會直接失敗；型別檢查用 pnpm exec tsc --noEmit -p .）
 
 # 部署到 GCP Cloud Run（用根目錄 Dockerfile 建置 + 部署）
 gcloud run deploy profile --source . --region asia-east1 \
@@ -65,8 +65,8 @@ public/
 - **Hover 統一規則**：文字 hover → `rgba(255,255,255,0.85)`，border hover → `rgba(255,255,255,0.22)`，背景 hover → `rgba(255,255,255,0.07)`
 - **Glow 效果**：`box-shadow: 0 0 18–24px rgba(255,255,255,0.18–0.3)`（白色，低透明度）
 - **Navbar**：浮動 pill，`position: fixed, top: 20px, width: 90vw`，與下方內容左右邊緣對齊
-- **Layout spacing**：各頁 section 頂部留 `110px` padding（navbar 高 46px + top 20px + buffer）；首頁 about-hero sticky 容器內用 `paddingTop: 86px`
-- **首頁 scroll**：`about-hero` 為 `minHeight: 100vh`，GSAP ScrollTrigger scrub 驅動離場動畫（左欄 y:-48 + opacity:0，右欄 scale:0.82 + opacity:0）；背景由 `app/page.tsx` 的全域 `gsap.to()` 控制 dark↔light 切換
+- **Layout spacing**：各頁 section 頂部留 `110px` padding（navbar 高 46px + top 20px + buffer）；首頁 about-hero 頂部 padding 桌面 `86px`、手機 `120px`（`pt-[120px] md:pt-[86px]`，讓大頭貼和 navbar 之間有空間）
+- **首頁 scroll**：`about-hero` 手機 `min-h-svh`、桌面 `md:min-h-screen`（100vh），GSAP ScrollTrigger scrub 驅動離場動畫（左欄 y:-48 + opacity:0，右欄 scale:0.82 + opacity:0）；背景由 `app/page.tsx` 依捲動位置控制 dark↔light 切換（見下方 GSAP 段落）
 
 ## Key Patterns
 
@@ -75,31 +75,51 @@ public/
 - **新增 shadcn 元件**：`npx shadcn@latest add <component>`，不要手動改 `components/ui/` 裡的 shadcn 檔案
 - **自製 UI 元件**（`liquid-glass-button`、`background-paper-shaders`、`text-scramble`、`perspective-highlight`）可直接修改
 - **GlassFilter**：使用多個 `LiquidButton` 的頁面請在 section 頂部放一個 `<GlassFilterProvider />`，避免重複渲染 SVG filter
-- **Container 寬度**：首頁用 `maxWidth: 90vw`；Projects/Resume 外層 `maxWidth: 90vw` + 內層 `maxWidth: 720px, margin: 0 auto`
+- **Container 寬度**：首頁用 `maxWidth: 90vw`；Projects/Resume 外層 `maxWidth: 90vw` + 內層 `maxWidth: 720px, margin: 0 auto`；兩者的 `4vw` 內距只在桌面（`md:px-[4vw]`）
+
+## RWD（手機版）
+
+- **斷點**：`md`（768px）切換版面——以下手機單欄、以上桌面兩欄（平板直向、寬度 ≥ 768px 的手機橫放走桌面版）；`sm`（640px）只用在 navbar（< 640px 品牌字只顯示 `WEIHONG`、連結間距縮小）
+- **inline style 會蓋掉 Tailwind class**：手機/桌面值不同的屬性必須從 `style={{}}` 移除，改寫成 mobile-first class + `md:` 原本的桌面值（例：`className="grid-cols-1 md:grid-cols-[1fr_36vw]"`）。屬性留在 inline 的話 class 會無聲失效
+- **手機容器**：內容寬 = 90vw，與 navbar 左右對齊
+- **手機 Hero**：單欄置中，大頭貼＋聯絡圖示在上（`order-first md:order-none`），scroll 提示隱藏，兩顆 CTA 等寬 44px 高，技術標籤寬度上限 300px 讓它排 3+2
+- **觸控 hover**：JS hover 效果用 `onPointerEnter` + `if (e.pointerType !== "mouse") return`（觸控每次點擊、開始捲動都會觸發 pointerenter），`onPointerLeave` 無條件還原。Tailwind v4 的 `hover:` 已自帶 `@media (hover: hover)`，不用處理
+- **JS media query**：用和 Tailwind `md` 同單位、剛好互補的 `(min-width: 48rem)` / `not all and (min-width: 48rem)`。寫成 px 的話，使用者放大瀏覽器預設字級時 CSS 和 JS 會在不同寬度切換
+- **效能**：觸控裝置不跑 `Perspective` 的 rAF 迴圈（`(hover: none)` 直接 return）；手機上 MeshGradient `maxPixelCount` 限 1280×720；fixed 背景層用 `top: 0` + `height: 100vh` 而非 `inset: 0`（避免手機網址列收合時 WebGL canvas 反覆重配置）
 
 ## GSAP Animation Patterns
 
 ### 背景 Dark↔Light 切換 (`app/page.tsx`)
-兩層全域 fixed 背景（dark z-index:0，light z-index:1），用 `gsap.to()` 跟著 scroll scrub 切換。
-**重要**：務必用 `gsap.to()`，不能用 `gsap.fromTo()`。`fromTo` 的 FROM state 會在 init 時立即套用，導致頁面刷新時 light bg 直接 opacity:1（整頁變白）。
+兩層全域 fixed 背景（dark z-index:0，light z-index:1）。light 層 opacity 是**捲動位置的純函數**：`進入 Projects 進度 × (1 − 進入 Resume 進度)`，用 `gsap.quickTo`（0.3s `expo`，等同 `scrub: 0.3` 的手感）套用。兩段轉場都是 trigger 頂端從視窗 70% → 30%，置中在兩區之間的空白，讓全白時段涵蓋整個 Projects。
 
 ```ts
-// ✅ 正確
-gsap.to("#global-light-bg", { opacity: 1, scrollTrigger: { scrub: 0.3, ... } })
-// ❌ 錯誤 — fromTo 的 { opacity: 1 } 會立即套用
-gsap.fromTo("#global-light-bg", { opacity: 1 }, { opacity: 0, ... })
+const setOpacity = gsap.quickTo("#global-light-bg", "opacity", { duration: 0.3, ease: "expo" })
+const update = () => {
+  const [enter, exit] = triggers
+  setOpacity((enter?.progress ?? 0) * (1 - (exit?.progress ?? 0)))
+}
+triggers.push(
+  ScrollTrigger.create({ trigger: projectsEl, start: "top 70%", end: "top 30%", onUpdate: update, onRefresh: update }),
+  ScrollTrigger.create({ trigger: resumeEl,   start: "top 70%", end: "top 30%", onUpdate: update, onRefresh: update }),
+)
+update()   // onRefresh 在 create() 內、push 之前就觸發（當時 triggers 還是空的），push 完要再算一次
+return () => { triggers.forEach((t) => t.kill()); setOpacity.tween.kill() }
 ```
+
+**不要**再用兩個 tween（`gsap.to()` 或 `fromTo()`）對同一個 opacity 做 scrub：ScrollTrigger 建立時會先把綁定的 tween 在 progress 0 render 一次（除非 `immediateRender: false`），第二個 tween 因此把載入當下的 opacity 0 記成起始值 → 白→黑變成硬切、往回捲時 Projects 被設回黑底（快速捲動時最明顯）。`fromTo` 則會在 init 時立即套用 FROM state（整頁變白）。
 
 ### About Hero 離場動畫 (`components/about-hero.tsx`)
-scrub 驅動，no x-axis movement（水平滑走視覺很差）。左欄向上飄離，右欄縮小退場：
+scrub 驅動，no x-axis movement（水平滑走視覺很差）。左欄向上飄離，右欄縮小退場。用 `gsap.matchMedia()` 分桌面/手機，cleanup 用 `mm.revert()`：
 
 ```ts
-// trigger: section, start: "top top", end: "bottom top", scrub: 0.5
+// 桌面 (min-width: 48rem) — trigger: section, start: "top top", end: "bottom top", scrub: 0.5
 tl.to(".about-left-col",  { y: -48, opacity: 0, ease: "none" }, 0)
   .to(".about-right-col", { scale: 0.82, opacity: 0, ease: "none" }, 0)
+// 手機 not all and (min-width: 48rem) — 單欄堆疊，同樣的 to() 但各欄自己當 trigger（"top top" → "bottom top"），
+// 捲過頂端才淡出，避免還在讀介紹文字時就在淡出
 ```
 
-scroll 回來時 scrub 自動 reverse，不需另外處理。
+scroll 回來時 scrub 自動 reverse，不需另外處理。右欄的 CSS 進場動畫放在 `.about-right-col` 的內層 div（原因見 Gotchas）。
 
 ### Project Cards 進場動畫 (`components/projects-section.tsx`)
 每張 card 獨立 GSAP timeline，5 段依序疊加，支援 scroll 進出雙向：
@@ -122,10 +142,10 @@ tl.fromTo(card, { opacity:0, y:60, rotateX:10 }, { opacity:1, y:0, rotateX:0, du
 
 ### ScrollTrigger Cleanup 正確寫法
 **絕對不能** `ScrollTrigger.getAll().forEach(t => t.kill())` — 會殺掉所有其他元件的 trigger。
-每個元件自己存自己的 triggers，cleanup 只 kill 自己的：
+每個元件自己存自己的 triggers，cleanup 只 kill 自己的（或用 `gsap.matchMedia()` 的 `mm.revert()`）：
 
 ```ts
-const triggers: gsap.core.ScrollTrigger[] = []
+const triggers: ScrollTrigger[] = []   // 不是 gsap.core.ScrollTrigger（那不是型別）
 // ... 建立時 push 進去
 return () => triggers.forEach(t => t.kill())
 ```
@@ -204,7 +224,7 @@ WebGL MeshGradient 背景動畫（@paper-design/shaders-react）。使用時 sec
 
 ### Navbar (`components/navbar.tsx`)
 浮動 pill，`position: fixed, top: 20px`，寬度 `90vw` 與頁面內容左右對齊。
-Nav link 有 slide-up hover 動畫（flex column + translateY）。
+Nav link 有 slide-up hover 動畫（flex column + translateY）；按鈕上下各 14px padding，整條 46px 高都是點擊區。
 
 ## Gotchas
 
@@ -214,6 +234,7 @@ Nav link 有 slide-up hover 動畫（flex column + translateY）。
 - 主題色透過 CSS 變數控制（Tailwind v4），調色時改 `app/globals.css`
 - 深色/淺色模式 favicon 在 `layout.tsx` 的 `metadata.icons` 配置
 - MeshGradient 顏色設定在 `background-paper-shaders.tsx`，目前 `["#000000", "#1a1a1a", "#3a3a3a", "#555555"]`，不要加白色否則會蓋住白色文字
+- **被 GSAP 動畫的元素本身不能掛 CSS `animation`**（例如 `neon-fade-up ... both`）：fill-mode 會讓最終 keyframe 持續生效並蓋過 GSAP 的 inline opacity/transform，GSAP 動畫等於沒跑。進場動畫要放在內層元素
 
 ## Deployment (GCP Cloud Run)
 

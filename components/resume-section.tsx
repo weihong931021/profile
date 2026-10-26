@@ -53,7 +53,7 @@ export function ResumeSection() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
     const blocks = sectionRef.current?.querySelectorAll(".scroll-block") ?? []
-    const triggers: gsap.core.ScrollTrigger[] = []
+    const triggers: ScrollTrigger[] = []
     blocks.forEach((block) => {
       const anim = gsap.fromTo(
         block,
@@ -74,7 +74,7 @@ export function ResumeSection() {
 
   return (
     <section ref={sectionRef} style={{ minHeight: "100vh", paddingBottom: "80px" }}>
-      <div style={{ maxWidth: "90vw", margin: "0 auto", padding: "110px 4vw 0" }}>
+      <div className="md:px-[4vw]" style={{ maxWidth: "90vw", margin: "0 auto", paddingTop: "110px" }}>
         <div style={{ maxWidth: "720px", margin: "0 auto" }}>
         {/* Page title */}
         <div className="scroll-block" style={{ textAlign: "center", marginBottom: "56px" }}>
@@ -100,13 +100,13 @@ export function ResumeSection() {
 
           {/* Stats cards */}
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "20px" }}>
-            <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
+            <div className="flex-1 md:flex-none" style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
               <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>RANK</p>
               <p style={{ color: "#fff", fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
                 32<span style={{ fontSize: "14px", opacity: 0.5 }}>/99</span>
               </p>
             </div>
-            <div style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
+            <div className="flex-1 md:flex-none" style={{ ...glassCard, textAlign: "center", minWidth: "110px" }}>
               <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", letterSpacing: "2px", margin: "0 0 6px" }}>AVERAGE</p>
               <p style={{ color: "#fff", fontSize: "26px", fontWeight: 900, margin: 0, lineHeight: 1 }}>
                 89.24
@@ -134,30 +134,33 @@ export function ResumeSection() {
         {/* Contact */}
         <div className="scroll-block" style={{ marginBottom: "0" }}>
           <h2 style={{ color: "#fff", fontSize: "20px", fontWeight: 700, margin: "0 0 20px" }}>Contact</h2>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "14px" }}>
+          <ul className="gap-0 md:gap-[14px]" style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column" }}>
             <li>
               <a href="https://github.com/weihong931021" target="_blank" rel="noreferrer"
+                className="py-2 md:py-0"
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+                onPointerEnter={(e) => { if (e.pointerType !== "mouse") return; e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+                onPointerLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Github size={18} /> weihong931021
               </a>
             </li>
             <li>
               <a href="mailto:weihong609193@gmail.com"
+                className="py-2 md:py-0"
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+                onPointerEnter={(e) => { if (e.pointerType !== "mouse") return; e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+                onPointerLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Mail size={18} /> weihong609193@gmail.com
               </a>
             </li>
             <li>
               <a href="/resume.pdf" download
+                className="py-2 md:py-0"
                 style={{ display: "inline-flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
+                onPointerEnter={(e) => { if (e.pointerType !== "mouse") return; e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+                onPointerLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.5)" }}
               >
                 <Download size={18} /> Resume PDF Download
               </a>
@@ -173,8 +176,8 @@ export function ResumeSection() {
           <div style={glassCard}>
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {Object.entries(skills).map(([category, items]) => (
-                <div key={category} style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                  <span style={{ color: "rgba(255,255,255,0.25)", fontSize: "12px", width: "72px", flexShrink: 0, paddingTop: "2px" }}>
+                <div key={category} className="flex-col gap-1 md:flex-row md:gap-4" style={{ display: "flex", alignItems: "flex-start" }}>
+                  <span className="md:w-[72px] md:pt-0.5" style={{ color: "rgba(255,255,255,0.25)", fontSize: "12px", flexShrink: 0 }}>
                     {category}
                   </span>
                   <span style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px", lineHeight: 1.5 }}>

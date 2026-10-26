@@ -94,40 +94,55 @@ export function AboutHero() {
     const left  = section.querySelector(".about-left-col")
     const right = section.querySelector(".about-right-col")
 
-    // Scroll exit: text drifts up (parallax), avatar recedes in scale — no horizontal movement
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "bottom top",
-        scrub: 0.5,
-      },
-    })
-    tl.to(left,  { y: -48, opacity: 0, ease: "none" }, 0)
-      .to(right, { scale: 0.82, opacity: 0, ease: "none" }, 0)
+    const mm = gsap.matchMedia()
 
-    return () => { if (tl.scrollTrigger) tl.scrollTrigger.kill() }
+    // Desktop scroll exit: text drifts up (parallax), avatar recedes in scale — no horizontal movement
+    mm.add("(min-width: 48rem)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+        },
+      })
+      tl.to(left,  { y: -48, opacity: 0, ease: "none" }, 0)
+        .to(right, { scale: 0.82, opacity: 0, ease: "none" }, 0)
+    })
+
+    // Mobile (stacked): each column exits on its own as it passes the top, so the intro text doesn't fade while still being read
+    mm.add("not all and (min-width: 48rem)", () => {
+      gsap.to(right, {
+        scale: 0.82, opacity: 0, ease: "none",
+        scrollTrigger: { trigger: right, start: "top top", end: "bottom top", scrub: 0.5 },
+      })
+      gsap.to(left, {
+        y: -48, opacity: 0, ease: "none",
+        scrollTrigger: { trigger: left, start: "top top", end: "bottom top", scrub: 0.5 },
+      })
+    })
+
+    // Reverts only this component's tweens/triggers
+    return () => mm.revert()
   }, [])
 
   return (
-    <section ref={sectionRef} style={{
-      minHeight: "100vh",
-      paddingTop: "86px",
+    <section ref={sectionRef} className="min-h-svh md:min-h-screen pt-[120px] pb-14 md:pt-[86px] md:pb-0" style={{
       display: "flex", alignItems: "center", justifyContent: "center",
       position: "relative", overflow: "hidden",
     }}>
       <GlassFilterProvider />
 
       {/* ── 2-column grid ── */}
-      <div style={{
+      <div className="grid-cols-1 gap-8 md:grid-cols-[1fr_36vw] md:gap-[4vw] md:px-[4vw]" style={{
         position: "relative", zIndex: 10,
-        display: "grid", gridTemplateColumns: "1fr 36vw",
-        alignItems: "center", gap: "4vw",
-        maxWidth: "90vw", width: "100%", padding: "0 4vw",
+        display: "grid",
+        alignItems: "center",
+        maxWidth: "90vw", width: "100%",
       }}>
 
         {/* Left column */}
-        <div className="about-left-col">
+        <div className="about-left-col text-center md:text-left">
           <div style={{ marginBottom: "2vh", animation: "neon-fade-up .6s ease both" }}>
             <TextScramble
               text="HUANG WEI-HONG"
@@ -138,17 +153,17 @@ export function AboutHero() {
             />
           </div>
 
-          <h1 style={{
+          <h1 className="text-[clamp(56px,18vw,76px)] md:text-[clamp(58px,7.5vw,100px)]" style={{
             fontFamily: "var(--font-noto-sans-tc), sans-serif",
-            fontSize: "clamp(58px, 7.5vw, 100px)", fontWeight: 900, lineHeight: 0.9,
+            fontWeight: 900, lineHeight: 0.9,
             color: "#fff", margin: "0 0 3vh",
             animation: "neon-fade-up .65s .08s ease both",
           }}>
             黃偉閎
           </h1>
 
-          <p style={{
-            fontSize: "12px", fontWeight: 500, letterSpacing: "3px",
+          <p className="text-[11px] tracking-[2.5px] text-balance md:text-[12px] md:tracking-[3px] md:text-wrap" style={{
+            fontWeight: 500,
             color: "rgba(255,255,255,.45)",
             margin: "0 0 3.5vh",
             animation: "neon-fade-up .65s .14s ease both",
@@ -156,24 +171,23 @@ export function AboutHero() {
             AI · MULTI-AGENT · WEB3 · FULLSTACK
           </p>
 
-          <p style={{
-            fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
-            color: "rgba(255,255,255,.35)", maxWidth: "88%", margin: "0 0 2.2vh",
+          <p className="text-[14px] text-white/50 text-pretty md:text-[13px] md:text-[rgba(255,255,255,.35)] md:max-w-[88%] md:text-wrap" style={{
+            fontWeight: 300, lineHeight: 2.0,
+            margin: "0 0 2.2vh",
             animation: "neon-fade-up .65s .2s ease both",
           }}>
             我目前就讀國立中央大學資訊管理學系，並修習人工智慧學分學程。專注於 AI 系統設計、Multi-Agent Workflow、全端開發與 Web3 應用。
           </p>
-          <p style={{
-            fontSize: "13px", fontWeight: 300, lineHeight: 2.0,
-            color: "rgba(255,255,255,.35)", maxWidth: "88%",
+          <p className="text-[14px] text-white/50 text-pretty md:text-[13px] md:text-[rgba(255,255,255,.35)] md:max-w-[88%] md:text-wrap" style={{
+            fontWeight: 300, lineHeight: 2.0,
             margin: "0 0 3.5vh",
             animation: "neon-fade-up .65s .26s ease both",
           }}>
             過去參與過多個實務導向專案，包括股票分析 Multi-Agent 系統、Web3 DeFi 借貸協議、新生資訊平台 Blog 系統，以及電腦視覺行為辨識專案。
           </p>
 
-          {/* Badges */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "3.2vh", animation: "neon-fade-up .65s .32s ease both" }}>
+          {/* Badges — width capped on phones so they wrap 3 + 2 instead of 4 + a lone one */}
+          <div className="mx-auto max-w-[300px] justify-center md:mx-0 md:max-w-none md:justify-start" style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "3.2vh", animation: "neon-fade-up .65s .32s ease both" }}>
             {["LangGraph", "Multi-Agent", "FastAPI", "Vue 3", "Solidity"].map(label => (
               <LiquidButton
                 key={label}
@@ -186,13 +200,13 @@ export function AboutHero() {
           </div>
 
           {/* CTA */}
-          <div style={{ display: "flex", gap: "12px", marginBottom: "2.5vh", animation: "neon-fade-up .65s .38s ease both" }}>
+          <div className="mx-auto max-w-[420px] justify-center md:mx-0 md:max-w-none md:justify-start" style={{ display: "flex", gap: "12px", marginBottom: "2.5vh", animation: "neon-fade-up .65s .38s ease both" }}>
             <LiquidButton
               size="lg"
               onClick={() => {
                 document.getElementById("resume")?.scrollIntoView({ behavior: "smooth" })
               }}
-              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
+              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors h-11 flex-1 md:h-10 md:flex-none"
             >
               RESUME
             </LiquidButton>
@@ -201,100 +215,104 @@ export function AboutHero() {
               onClick={() => {
                 document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
               }}
-              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors"
+              className="rounded-full px-8 text-[11px] font-bold tracking-[2.5px] uppercase text-white border border-white/20 hover:border-white/40 transition-colors h-11 flex-1 md:h-10 md:flex-none"
             >
               PROJECTS
             </LiquidButton>
           </div>
         </div>
 
-        {/* Right column */}
-        <div className="about-right-col" style={{
-          display: "flex", flexDirection: "column", alignItems: "center",
-          gap: "1.2vw", overflow: "visible", marginTop: "-2vh",
-          animation: "neon-fade-up .8s .1s ease both",
-        }}>
-          <Perspective
-            maxRotateX={18}
-            maxRotateY={22}
-            smoothing={0.08}
-            cardClassName="will-change-transform"
-          >
-            <div style={{
-              width: "240px", height: "240px", borderRadius: "50%",
-              overflow: "hidden", flexShrink: 0,
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}>
-              <Image src="/images/profile.jpg" alt="黃偉閎" width={240} height={240}
-                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.91) brightness(1.14)" }} priority />
-            </div>
-          </Perspective>
-
-          {/* Contact pills */}
+        {/* Right column — entrance animation sits on the inner div: on the GSAP-driven outer,
+            its fill-mode "both" final keyframe would override the scroll-exit opacity/scale */}
+        <div className="about-right-col order-first md:order-none md:-mt-[2vh]" style={{ overflow: "visible" }}>
           <div style={{
-            display: "flex", gap: "6px", alignItems: "center",
-            marginTop: "2vh",
+            display: "flex", flexDirection: "column", alignItems: "center",
+            gap: "1.2vw",
+            animation: "neon-fade-up .8s .1s ease both",
           }}>
-            {CONTACTS.map((c, i) => {
-              const isHov = hoveredContact === i
-              return (
-                <a
-                  key={c.short}
-                  href={c.href}
-                  target={c.external ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  onMouseEnter={() => setHoveredContact(i)}
-                  onMouseLeave={() => setHoveredContact(null)}
-                  style={{
-                    display: "flex", alignItems: "center", textDecoration: "none",
-                    borderRadius: "9999px", cursor: "pointer",
-                    padding: isHov ? "4px 11px 4px 4px" : "4px",
-                    background: isHov ? "rgba(255,255,255,.07)" : "transparent",
-                    border: "1px solid",
-                    borderColor: isHov ? "rgba(255,255,255,.12)" : "transparent",
-                    transition: "all .45s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                >
-                  <div style={{
-                    width: "26px", height: "26px", borderRadius: "50%", flexShrink: 0,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    background: isHov ? "rgba(255,255,255,.15)" : "rgba(255,255,255,.07)",
-                    color: isHov ? "#ffffff" : "rgba(255,255,255,.4)",
-                    transition: "all .4s cubic-bezier(0.4,0,0.2,1)",
-                  }}>
-                    {c.icon}
-                  </div>
+            <Perspective
+              maxRotateX={18}
+              maxRotateY={22}
+              smoothing={0.08}
+              cardClassName="will-change-transform"
+            >
+              <div className="size-[clamp(140px,42vw,176px)] md:size-[240px]" style={{
+                borderRadius: "50%",
+                overflow: "hidden", flexShrink: 0,
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}>
+                <Image src="/images/profile.jpg" alt="黃偉閎" width={240} height={240}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.91) brightness(1.14)" }} priority />
+              </div>
+            </Perspective>
 
-                  <div style={{
-                    display: "grid",
-                    gridTemplateColumns: isHov ? "1fr" : "0fr",
-                    opacity: isHov ? 1 : 0,
-                    marginLeft: isHov ? "8px" : "0",
-                    transition: "grid-template-columns .45s cubic-bezier(0.4,0,0.2,1), opacity .3s, margin-left .45s cubic-bezier(0.4,0,0.2,1)",
-                    alignItems: "center",
-                    height: "26px",
-                  }}>
-                    <div style={{ overflow: "hidden", display: "flex", alignItems: "center", height: "100%" }}>
-                      <span style={{
-                        fontSize: "11px", fontWeight: 400, whiteSpace: "nowrap",
-                        color: "rgba(255,255,255,.6)", lineHeight: 1,
-                      }}>
-                        {c.value}
-                      </span>
+            {/* Contact pills */}
+            <div className="gap-2 md:gap-[6px]" style={{
+              display: "flex", alignItems: "center",
+              marginTop: "2vh",
+            }}>
+              {CONTACTS.map((c, i) => {
+                const isHov = hoveredContact === i
+                return (
+                  <a
+                    key={c.short}
+                    href={c.href}
+                    target={c.external ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    // mouse only — touch fires pointerenter on every tap, which would flash the pill open
+                    onPointerEnter={(e) => { if (e.pointerType === "mouse") setHoveredContact(i) }}
+                    onPointerLeave={() => setHoveredContact(null)}
+                    style={{
+                      display: "flex", alignItems: "center", textDecoration: "none",
+                      borderRadius: "9999px", cursor: "pointer",
+                      padding: isHov ? "4px 11px 4px 4px" : "4px",
+                      background: isHov ? "rgba(255,255,255,.07)" : "transparent",
+                      border: "1px solid",
+                      borderColor: isHov ? "rgba(255,255,255,.12)" : "transparent",
+                      transition: "all .45s cubic-bezier(0.4,0,0.2,1)",
+                    }}
+                  >
+                    <div className="size-8 md:size-[26px]" style={{
+                      borderRadius: "50%", flexShrink: 0,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      background: isHov ? "rgba(255,255,255,.15)" : "rgba(255,255,255,.07)",
+                      color: isHov ? "#ffffff" : "rgba(255,255,255,.4)",
+                      transition: "all .4s cubic-bezier(0.4,0,0.2,1)",
+                    }}>
+                      {c.icon}
                     </div>
-                  </div>
-                </a>
-              )
-            })}
+
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: isHov ? "1fr" : "0fr",
+                      opacity: isHov ? 1 : 0,
+                      marginLeft: isHov ? "8px" : "0",
+                      transition: "grid-template-columns .45s cubic-bezier(0.4,0,0.2,1), opacity .3s, margin-left .45s cubic-bezier(0.4,0,0.2,1)",
+                      alignItems: "center",
+                      height: "26px",
+                    }}>
+                      <div style={{ overflow: "hidden", display: "flex", alignItems: "center", height: "100%" }}>
+                        <span style={{
+                          fontSize: "11px", fontWeight: 400, whiteSpace: "nowrap",
+                          color: "rgba(255,255,255,.6)", lineHeight: 1,
+                        }}>
+                          {c.value}
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div style={{
+      <div className="hidden md:flex" style={{
         position: "absolute", bottom: "36px",
         left: 0, right: 0,
-        display: "flex", justifyContent: "center",
+        justifyContent: "center",
         pointerEvents: "none",
       }}>
         <button

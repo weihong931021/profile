@@ -18,31 +18,31 @@ function SlideLink({
   return (
     <button
       onClick={onClick}
-      style={{
-        background: "none", border: "none", padding: 0, cursor: "pointer",
-        textDecoration: "none", display: "inline-block", height: "18px", overflow: "hidden",
-      }}
+      style={{ background: "none", border: "none", padding: "14px 0", cursor: "pointer" }}
       className="group"
     >
-      <span
-        className="group-hover:-translate-y-1/2"
-        style={{ display: "flex", flexDirection: "column", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)" }}
-      >
-        <span style={{
-          display: "block", fontSize: "12px", fontWeight: active ? 600 : 400,
-          letterSpacing: "0.6px", lineHeight: "18px",
-          color: active ? activeColor : mutedColor,
-          whiteSpace: "nowrap",
-          transition: "color 0.3s",
-        }}>
-          {label}
-        </span>
-        <span style={{
-          display: "block", fontSize: "12px", fontWeight: 600,
-          letterSpacing: "0.6px", lineHeight: "18px",
-          color: hoverColor, whiteSpace: "nowrap",
-        }}>
-          {label}
+      {/* 14px + 18px window + 14px = the 46px bar, so the whole bar height is the tap target */}
+      <span style={{ display: "block", height: "18px", overflow: "hidden" }}>
+        <span
+          className="group-hover:-translate-y-1/2"
+          style={{ display: "flex", flexDirection: "column", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)" }}
+        >
+          <span style={{
+            display: "block", fontSize: "12px", fontWeight: active ? 600 : 400,
+            letterSpacing: "0.6px", lineHeight: "18px",
+            color: active ? activeColor : mutedColor,
+            whiteSpace: "nowrap",
+            transition: "color 0.3s",
+          }}>
+            {label}
+          </span>
+          <span style={{
+            display: "block", fontSize: "12px", fontWeight: 600,
+            letterSpacing: "0.6px", lineHeight: "18px",
+            color: hoverColor, whiteSpace: "nowrap",
+          }}>
+            {label}
+          </span>
         </span>
       </span>
     </button>
@@ -78,7 +78,7 @@ export function Navbar() {
   }
 
   return (
-    <header style={{
+    <header className="px-4 sm:px-[4vw]" style={{
       position: "fixed",
       top: "20px",
       left: "50%",
@@ -88,7 +88,6 @@ export function Navbar() {
       flexDirection: "column",
       alignItems: "stretch",
       width: "90vw",
-      padding: "0 4vw",
       borderRadius: "9999px",
       background: lightMode ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.055)",
       backdropFilter: "blur(24px)",
@@ -117,12 +116,12 @@ export function Navbar() {
             color: lightMode ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.5)",
             whiteSpace: "nowrap", lineHeight: "46px", transition: "color 0.3s",
           }}>
-            WEIHONG&apos;S WEBSITE
+            WEIHONG<span className="hidden sm:inline">&apos;S WEBSITE</span>
           </span>
         </button>
 
         {/* Nav links */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "28px", marginLeft: "auto" }}>
+        <nav className="gap-5 sm:gap-7" style={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
           {navItems.map(item => (
             <SlideLink
               key={item.id}

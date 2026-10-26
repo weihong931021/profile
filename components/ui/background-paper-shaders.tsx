@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import dynamic from "next/dynamic"
 
 const MeshGradient = dynamic(
@@ -59,13 +60,20 @@ interface PortfolioBackgroundProps {
 
 export function PortfolioBackground({ light, colors }: PortfolioBackgroundProps = {}) {
   const palette = colors ?? (light ? LIGHT_COLORS : DARK_COLORS)
+  // Phones: cap at 720p — at DPR 3 each full-screen canvas is ~3M px per frame, and a soft gradient looks the same lower-res.
+  // undefined = library default. Server value never matters: MeshGradient is ssr:false.
+  const [maxPixelCount] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("not all and (min-width: 48rem)").matches
+      ? 1280 * 720
+      : undefined
+  )
   return (
     <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
       <MeshGradient
         className="w-full h-full"
-        // @ts-expect-error – library accepts string[]
         colors={palette}
         speed={0.4}
+        maxPixelCount={maxPixelCount}
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       />
     </div>

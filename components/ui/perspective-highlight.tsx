@@ -26,7 +26,7 @@ export const Perspective = ({
     const container = containerRef.current;
     const card = cardRef.current;
     if (!container || !card) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.matchMedia("(hover: none)").matches) return;
 
     let targetX = 0;
     let targetY = 0;
